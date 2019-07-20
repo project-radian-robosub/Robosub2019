@@ -38,8 +38,7 @@ def motor_coroutine(motor_num):
                 write_all_motors = ""
                 for i in motor_strings:
                     write_all_motors += i
-                ser.write(write_all_motors)
-                print(write_all_motors)
+                ser.write(write_all_motors.encode())
                 time.sleep(.01)
             while targets[motor_num] > target:
                 targets[motor_num] -= 5
@@ -50,8 +49,7 @@ def motor_coroutine(motor_num):
                 write_all_motors = ""
                 for i in motor_strings:
                     write_all_motors += i
-                ser.write(write_all_motors)
-                print(motor_strings)
+                ser.write(write_all_motors.encode())
                 time.sleep(.01)
 
     except GeneratorExit:
@@ -120,6 +118,7 @@ def stop():
     m6_corou.send(0)
     m7_corou.send(0)
 
+
 try:
     wait_for_arduino()
 
@@ -136,7 +135,7 @@ try:
     m6_corou.__next__()
     m7_corou.__next__()
 
-    ser.write(all_motors_stop)
+    ser.write(all_motors_stop.encode())
 
     while True:
         char = input("?")
@@ -188,4 +187,4 @@ try:
 
 finally:
     targets = [0, 0, 0, 0, 0, 0]
-    ser.write(all_motors_stop)
+    ser.write(all_motors_stop.encode())

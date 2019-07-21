@@ -1,12 +1,12 @@
 from serial import Serial
 import time
 
-ser = Serial("/dev/usb/bin/001/006", 9600)
+ser = Serial("/dev/ttyACM0", 9600)
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
 all_motors_stop = "050050050050050050"
-pwr = 50
+pwr = 20
 
 
 def wait_for_arduino():
@@ -28,27 +28,40 @@ def remap(x, b1, b2, v1, v2):
 def motor_coroutine(motor_num):
     try:
         while True:
+
             target = (yield)
+
             while targets[motor_num] < target:
+
                 targets[motor_num] += 5
                 mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
+
                 while len(mot_str) < 3:
                     mot_str = "0" + mot_str
+
                 motor_strings[motor_num] = mot_str
                 write_all_motors = ""
+
                 for i in motor_strings:
                     write_all_motors += i
+
                 ser.write(write_all_motors.encode())
                 time.sleep(.01)
+
             while targets[motor_num] > target:
+
                 targets[motor_num] -= 5
                 mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
+
                 while len(mot_str) < 3:
                     mot_str = "0" + mot_str
+
                 motor_strings[motor_num] = mot_str
                 write_all_motors = ""
+
                 for i in motor_strings:
                     write_all_motors += i
+
                 ser.write(write_all_motors.encode())
                 time.sleep(.01)
 

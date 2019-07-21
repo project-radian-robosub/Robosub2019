@@ -77,11 +77,5 @@ void updateMotors(String values) { //length must be 18
   m5.writeMicroseconds(map(values.substring(9,12).toInt(), 0, 100, 1100, 1900));
   m6.writeMicroseconds(map(values.substring(12,15).toInt(), 0, 100, 1100, 1900));
   m7.writeMicroseconds(map(values.substring(15).toInt(), 0, 100, 1100, 1900));
-  print(values.substring(0,3).toInt());
-  print(values.substring(3,6).toInt());
-  print(values.substring(6,9).toInt());
-  print(values.substring(9,12).toInt());
-  print(values.substring(12,15).toInt());
-  print(values.substring(15).toInt());  
   
 }

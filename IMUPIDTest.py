@@ -1,6 +1,8 @@
 import IMU
 import MotorMovement
 
+ser = MotorMovement.ser
+
 imu = IMU.IMU(0.5, 0, 0, 0, 0, 0)
 
 motor2 = MotorMovement.motor_coroutine(0)

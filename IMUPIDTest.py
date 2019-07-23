@@ -3,11 +3,19 @@ import MotorMovement
 
 ser = MotorMovement.ser
 
-imu = IMU.IMU(0.5, 0, 0, 0, 0, 0)
+imu = IMU.IMU(1, 0, 0, 0, 0, 0)
 
 motor2 = MotorMovement.motor_coroutine(0)
+motor3 = MotorMovement.motor_coroutine(1)
+motor4 = MotorMovement.motor_coroutine(2)
+motor5 = MotorMovement.motor_coroutine(3)
+motor6 = MotorMovement.motor_coroutine(4)
 motor7 = MotorMovement.motor_coroutine(5)
 motor2_power = 0
+motor3_power = 0
+motor4_power = 0
+motor5_power = 0
+motor6_power = 0
 motor7_power = 0
 
 
@@ -29,18 +37,29 @@ def remap(x, b1, b2, v1, v2):
 
 def stop_all():
     motor2.send(0)
+    motor3.send(0)
+    motor4.send(0)
+    motor5.send(0)
+    motor6.send(0)
     motor7.send(0)
 
 
 try:
     wait_for_arduino()
-    motor2.send(0)
-    motor7.send(0)
+    stop_all()
     while True:
         motor2_power = remap(imu.get_pid()[2], -180, 180, -100, 100)
         motor7_power = -remap(imu.get_pid()[2], -180, 180, -100, 100)
         motor2.send(int(motor2_power))
         motor7.send(int(motor7_power))
+        motor3_power = remap(imu.get_pid()[1], -180, 180, -100, 100)
+        motor6_power = -remap(imu.get_pid()[1], -180, 180, -100, 100)
+        motor3.send(int(motor3_power))
+        motor6.send(int(motor6_power))
+        motor4_power = -remap(imu.get_pid()[0], -180, 180, -100, 100)
+        motor5_power = remap(imu.get_pid()[0], -180, 180, -100, 100)
+        motor4.send(int(motor4_power))
+        motor5.send(int(motor5_power))
 
 finally:
     stop_all()

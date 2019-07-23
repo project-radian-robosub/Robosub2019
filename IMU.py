@@ -6,32 +6,70 @@ import adafruit_bno055
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055(i2c)
 
-kp = 1
-ki = 0
-kd = 0
 
-pid_euler_x = PID(kp, ki, kd, setpoint=0, output_limits=[-180, 180])
-pid_euler_y = PID(kp, ki, kd, setpoint=0, output_limits=[-180, 180])
-pid_euler_z = PID(kp, ki, kd, setpoint=0, output_limits=[-180, 180])
+def recenter(center, value):
+    difference = value - center
+    threshold = 0
+
+    if center < 180:
+        threshold = center + 180
+    elif center >= 180:
+        threshold = center - 180
+
+    if center > value > threshold:
+        return difference
+    elif value > center > threshold:
+        return difference
+    elif value > threshold > center:
+        return difference - 360
+    elif threshold > value > center:
+        return difference
+    elif threshold > center > value:
+        return difference
+    elif center > threshold > value:
+        return difference + 360
+    elif value == threshold:
+        return difference
+    else:
+        return 0
 
 
-def remap(x, b1, b2, v1, v2):
-    prop = (x - b1) / (b2 - b1)
-    new_prop = prop * (v2 - v1)
-    new = v1 + new_prop
-    return new
+class IMU:
+    kp = 0
+    ki = 0
+    kd = 0
+    setpoint_x = 0
+    setpoint_y = 0
+    setpoint_z = 0
 
+    def __init__(self, kp, ki, kd, setpoint_x=0, setpoint_y=0, setpoint_z=0):
+        self.pid_x = PID(kp, ki, kd, setpoint_x)
+        self.pid_y = PID(kp, ki, kd, setpoint_y)
+        self.pid_z = PID(kp, ki, kd, setpoint_z)
+        self.setpoint_x = setpoint_x
+        self.setpoint_y = setpoint_y
+        self.setpoint_z = setpoint_z
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
 
-def recenter(imu_val):
-    if imu_val > 180:
-        imu_val = imu_val - 360
-    return imu_val
+    def get_pid(self):
+        pid_input_x = recenter(self.setpoint_x, sensor.euler[2])
+        pid_input_y = recenter(self.setpoint_y, sensor.euler[1])
+        pid_input_z = recenter(self.setpoint_z, sensor.euler[0])
+        pid_tuple = (self.pid_x(pid_input_x),
+                     self.pid_y(pid_input_y),
+                     self.pid_z(pid_input_z))
+        return pid_tuple
 
+    def set_x(self, value):
+        self.setpoint_x = value
+        self.pid_x = PID(self.kp, self.ki, self.kd, self.setpoint_x)
 
-imu_pid_val_x = pid_euler_x(recenter(sensor.euler[0]))
-imu_pid_val_y = pid_euler_y(recenter(sensor.euler[1]))
-imu_pid_val_z = pid_euler_z(recenter(sensor.euler[2]))
+    def set_y(self, value):
+        self.setpoint_y = value
+        self.pid_y = PID(self.kp, self.ki, self.kd, self.setpoint_y)
 
-power_x_rotation = int(remap(imu_pid_val_x, -180, 180, 0, 100))
-power_y_rotation = int(remap(imu_pid_val_y, -180, 180, 0, 100))
-power_z_rotation = int(remap(imu_pid_val_z, -180, 180, 0, 100))
+    def set_z(self, value):
+        self.setpoint_z = value
+        self.pid_z = PID(self.kp, self.ki, self.kd, self.setpoint_z)

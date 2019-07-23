@@ -1,3 +1,4 @@
+import MotorMoveTest
 import time
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
@@ -13,48 +14,12 @@ def remap(x, b1, b2, v1, v2):
     return new
 
 
-def motor_coroutine(motor_num):
-    try:
-        while True:
-
-            target = (yield)
-
-            while targets[motor_num] < target:
-
-                targets[motor_num] += 5
-                mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
-
-                while len(mot_str) < 3:
-                    mot_str = "0" + mot_str
-
-                motor_strings[motor_num] = mot_str
-                write_all_motors = ""
-
-                for i in motor_strings:
-                    write_all_motors += i
-
-                print(write_all_motors)
-                time.sleep(.01)
-
-            while targets[motor_num] > target:
-
-                targets[motor_num] -= 5
-                mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
-
-                while len(mot_str) < 3:
-                    mot_str = "0" + mot_str
-
-                motor_strings[motor_num] = mot_str
-                write_all_motors = ""
-
-                for i in motor_strings:
-                    write_all_motors += i
-
-                print(write_all_motors)
-                time.sleep(.01)
-
-    except GeneratorExit:
-        print("motor co-routine closed")
+def coroutine(func):
+    def start(*args, **kwargs):
+        g = func(*args, **kwargs)
+        g.__next__()
+        return g
+    return start
 
 
 def forward_backward(power):
@@ -122,18 +87,12 @@ def stop():
 
 try:
 
-    m2_corou = motor_coroutine(0)
-    m3_corou = motor_coroutine(1)
-    m4_corou = motor_coroutine(2)
-    m5_corou = motor_coroutine(3)
-    m6_corou = motor_coroutine(4)
-    m7_corou = motor_coroutine(5)
-    m2_corou.__next__()
-    m3_corou.__next__()
-    m4_corou.__next__()
-    m5_corou.__next__()
-    m6_corou.__next__()
-    m7_corou.__next__()
+    m2_corou = MotorMoveTest.motor_coroutine(0)
+    m3_corou = MotorMoveTest.motor_coroutine(1)
+    m4_corou = MotorMoveTest.motor_coroutine(2)
+    m5_corou = MotorMoveTest.motor_coroutine(3)
+    m6_corou = MotorMoveTest.motor_coroutine(4)
+    m7_corou = MotorMoveTest.motor_coroutine(5)
 
     print(all_motors_stop)
 

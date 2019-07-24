@@ -43,10 +43,10 @@ def set_imu_powers():
     y = int(imu.get_pid()[1])
     z = int(imu.get_pid()[2])
     imu_powers[0] = z
-    imu_powers[1] = y
-    imu_powers[2] = x
-    imu_powers[3] = -x
-    imu_powers[4] = -y
+    imu_powers[1] = x
+    imu_powers[2] = y
+    imu_powers[3] = -y
+    imu_powers[4] = -x
     imu_powers[5] = -z
 
 

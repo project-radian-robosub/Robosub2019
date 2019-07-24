@@ -52,8 +52,8 @@ try:
         motor7_power = -imu.get_pid()[2]
         motor2.send(int(motor2_power))
         motor7.send(int(motor7_power))
-        motor3_power = -imu.get_pid()[1]
-        motor6_power = imu.get_pid()[1]
+        motor3_power = imu.get_pid()[1]
+        motor6_power = -imu.get_pid()[1]
         motor3.send(int(motor3_power))
         motor6.send(int(motor6_power))
         motor4_power = imu.get_pid()[0]

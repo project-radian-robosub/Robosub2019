@@ -43,10 +43,10 @@ def set_imu_powers():
     y = int(imu.get_pid()[1])
     z = int(imu.get_pid()[2])
     imu_powers[0] = z
-    imu_powers[1] = -y
+    imu_powers[1] = y
     imu_powers[2] = x
     imu_powers[3] = -x
-    imu_powers[4] = y
+    imu_powers[4] = -y
     imu_powers[5] = -z
 
 
@@ -66,16 +66,16 @@ def set_move_powers(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
 
 
 def set_motor_powers():
-    for i in motor_powers:
+    for i in range(len(motor_powers)):
         motor_powers[i] = 0
-    for i in motor_powers:
+    for i in range(len(motor_powers)):
         motor_powers[i] += imu_powers[i]
         motor_powers[i] += pressure_powers[i]
         motor_powers[i] += move_powers[i]
 
     max_pow = 0
 
-    for i in motor_powers:
+    for i in range(len(motor_powers)):
         if motor_powers[i] > max_pow:
             max_pow = motor_powers[i]
 

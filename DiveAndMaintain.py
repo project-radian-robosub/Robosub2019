@@ -76,8 +76,8 @@ def set_motor_powers():
     max_pow = 0
 
     for i in range(len(motor_powers)):
-        if motor_powers[i] > max_pow:
-            max_pow = motor_powers[i]
+        if abs(motor_powers[i]) > max_pow:
+            max_pow = abs(motor_powers[i])
 
     if abs(max_pow) > 100:
         for i in range(len(motor_powers)):
@@ -103,6 +103,10 @@ try:
         set_pressure_powers()
         set_move_powers(0, 0, 0, 0, 0, 0)
         set_motor_powers()
+
+except KeyboardInterrupt:
+    stop_all()
+    print("end")
 
 finally:
     stop_all()

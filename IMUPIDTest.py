@@ -48,16 +48,16 @@ try:
     wait_for_arduino()
     stop_all()
     while True:
-        motor2_power = remap(imu.get_pid()[2], -180, 180, -100, 100)
-        motor7_power = -remap(imu.get_pid()[2], -180, 180, -100, 100)
+        motor2_power = imu.get_pid()[2]
+        motor7_power = -imu.get_pid()[2]
         motor2.send(int(motor2_power))
         motor7.send(int(motor7_power))
-        motor3_power = remap(imu.get_pid()[1], -180, 180, -100, 100)
-        motor6_power = -remap(imu.get_pid()[1], -180, 180, -100, 100)
+        motor3_power = -imu.get_pid()[1]
+        motor6_power = imu.get_pid()[1]
         motor3.send(int(motor3_power))
         motor6.send(int(motor6_power))
-        motor4_power = -remap(imu.get_pid()[0], -180, 180, -100, 100)
-        motor5_power = remap(imu.get_pid()[0], -180, 180, -100, 100)
+        motor4_power = imu.get_pid()[0]
+        motor5_power = -imu.get_pid()[0]
         motor4.send(int(motor4_power))
         motor5.send(int(motor5_power))
 

@@ -14,14 +14,6 @@ def remap(x, b1, b2, v1, v2):
     return new
 
 
-def coroutine(func):
-    def start(*args, **kwargs):
-        g = func(*args, **kwargs)
-        g.__next__()
-        return g
-    return start
-
-
 def forward_backward(power):
     m2_corou.send(power)
     m3_corou.send(0)

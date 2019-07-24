@@ -1,19 +1,7 @@
-from serial import Serial
 import time
-
-ser = Serial("/dev/ttyACM0", 9600)
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
-
-
-def wait_for_arduino():
-    msg = ""
-    while msg.find("ready") == -1:
-        if ser.inWaiting() > 0:
-            c = ser.read()
-            msg += c.decode('utf-8')
-            print("Arduino" + msg)
 
 
 def remap(x, b1, b2, v1, v2):
@@ -52,8 +40,8 @@ def motor_coroutine(motor_num):
                 for i in motor_strings:
                     write_all_motors += i
 
-                ser.write(write_all_motors.encode())
-                time.sleep(.005)
+                print(write_all_motors)
+                time.sleep(.01)
 
             while targets[motor_num] > target:
 
@@ -69,10 +57,8 @@ def motor_coroutine(motor_num):
                 for i in motor_strings:
                     write_all_motors += i
 
-                ser.write(write_all_motors.encode())
-                time.sleep(.005)
-
-            print(targets)
+                print(write_all_motors)
+                time.sleep(.01)
 
     except GeneratorExit:
         print("motor co-routine closed")

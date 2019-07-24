@@ -1,12 +1,13 @@
 from serial import Serial
+import MotorMovement
 import time
-
-ser = Serial("/dev/ttyACM0", 9600)
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
 all_motors_stop = "050050050050050050"
-pwr = 20
+pwr = 30
+
+ser = Serial("/dev/cu.usbmodem144201", 9600)
 
 
 def wait_for_arduino():
@@ -23,50 +24,6 @@ def remap(x, b1, b2, v1, v2):
     new_prop = prop * (v2 - v1)
     new = v1 + new_prop
     return new
-
-
-def motor_coroutine(motor_num):
-    try:
-        while True:
-
-            target = (yield)
-
-            while targets[motor_num] < target:
-
-                targets[motor_num] += 5
-                mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
-
-                while len(mot_str) < 3:
-                    mot_str = "0" + mot_str
-
-                motor_strings[motor_num] = mot_str
-                write_all_motors = ""
-
-                for i in motor_strings:
-                    write_all_motors += i
-
-                ser.write(write_all_motors.encode())
-                time.sleep(.01)
-
-            while targets[motor_num] > target:
-
-                targets[motor_num] -= 5
-                mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
-
-                while len(mot_str) < 3:
-                    mot_str = "0" + mot_str
-
-                motor_strings[motor_num] = mot_str
-                write_all_motors = ""
-
-                for i in motor_strings:
-                    write_all_motors += i
-
-                ser.write(write_all_motors.encode())
-                time.sleep(.01)
-
-    except GeneratorExit:
-        print("motor co-routine closed")
 
 
 def forward_backward(power):
@@ -135,18 +92,12 @@ def stop():
 try:
     wait_for_arduino()
 
-    m2_corou = motor_coroutine(0)
-    m3_corou = motor_coroutine(1)
-    m4_corou = motor_coroutine(2)
-    m5_corou = motor_coroutine(3)
-    m6_corou = motor_coroutine(4)
-    m7_corou = motor_coroutine(5)
-    m2_corou.__next__()
-    m3_corou.__next__()
-    m4_corou.__next__()
-    m5_corou.__next__()
-    m6_corou.__next__()
-    m7_corou.__next__()
+    m2_corou = MotorMovement.motor_coroutine(0)
+    m3_corou = MotorMovement.motor_coroutine(1)
+    m4_corou = MotorMovement.motor_coroutine(2)
+    m5_corou = MotorMovement.motor_coroutine(3)
+    m6_corou = MotorMovement.motor_coroutine(4)
+    m7_corou = MotorMovement.motor_coroutine(5)
 
     ser.write(all_motors_stop.encode())
 
@@ -195,9 +146,7 @@ try:
         if char == "f":
             stop()
 
-        print(targets)
-
 
 finally:
     targets = [0, 0, 0, 0, 0, 0]
-    ser.write(all_motors_stop.encode())
+    stop()

@@ -1,10 +1,4 @@
 from simple_pid import PID
-import board
-import busio
-import adafruit_bno055
-
-i2c = busio.I2C(board.SCL, board.SDA)
-sensor = adafruit_bno055.BNO055(i2c)
 
 
 def recenter(center, value):
@@ -35,6 +29,7 @@ def recenter(center, value):
 
 
 class IMU:
+    invalue = 0
     kp = 0
     ki = 0
     kd = 0
@@ -43,9 +38,9 @@ class IMU:
     setpoint_z = 0
 
     def __init__(self, kp, ki, kd, setpoint_x=0, setpoint_y=0, setpoint_z=0):
-        self.pid_x = PID(kp, ki, kd, setpoint_x, output_limits=(-100, 100))
-        self.pid_y = PID(kp, ki, kd, setpoint_y, output_limits=(-100, 100))
-        self.pid_z = PID(kp, ki, kd, setpoint_z, output_limits=(-100, 100))
+        self.pid_x = PID(kp, ki, kd, setpoint_x)
+        self.pid_y = PID(kp, ki, kd, setpoint_y)
+        self.pid_z = PID(kp, ki, kd, setpoint_z)
         self.setpoint_x = setpoint_x
         self.setpoint_y = setpoint_y
         self.setpoint_z = setpoint_z
@@ -53,13 +48,10 @@ class IMU:
         self.ki = ki
         self.kd = kd
 
-    def get_angles(self):
-        return sensor.euler
-
     def get_pid(self):
-        pid_input_x = recenter(self.setpoint_x, sensor.euler[2])
-        pid_input_y = recenter(self.setpoint_y, sensor.euler[1])
-        pid_input_z = recenter(self.setpoint_z, sensor.euler[0])
+        pid_input_x = recenter(self.setpoint_x, self.invalue)
+        pid_input_y = recenter(self.setpoint_y, self.invalue)
+        pid_input_z = recenter(self.setpoint_z, self.invalue)
         pid_tuple = (self.pid_x(pid_input_x),
                      self.pid_y(pid_input_y),
                      self.pid_z(pid_input_z))
@@ -76,3 +68,6 @@ class IMU:
     def set_z(self, value):
         self.setpoint_z = value
         self.pid_z = PID(self.kp, self.ki, self.kd, self.setpoint_z)
+
+    def set_invalue(self, value):
+        self.invalue = value

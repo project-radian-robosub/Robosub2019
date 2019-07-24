@@ -3,8 +3,8 @@ from PressureSensor import Pressure
 import MotorMovement
 import time
 
-imu = IMU(2, 0, 0, 0, 0, 0)
-pressure = Pressure(2, 0, 0, setpoint=990)
+imu = IMU(1, 0, 0, 0, 0, 0)
+pressure = Pressure(1, 0, 0, setpoint=990)
 
 m2 = MotorMovement.motor_coroutine(0)
 m3 = MotorMovement.motor_coroutine(1)
@@ -72,12 +72,20 @@ def set_move_powers(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
 def set_motor_powers():
     for i in motor_powers:
         motor_powers[i] = 0
-    for i in imu_powers:
-        motor_powers[i] += imu_powers[i] * imu_scalar
-    for i in pressure_powers:
-        motor_powers[i] += pressure_powers[i] * pressure_scalar
-    for i in pressure_powers:
-        motor_powers[i] += move_powers[i] * movement_scalar
+    for i in motor_powers:
+        motor_powers[i] += imu_powers[i]
+        motor_powers[i] += pressure_powers[i]
+        motor_powers[i] += move_powers[i]
+
+    max_pow = 0
+
+    for i in motor_powers:
+        if motor_powers[i] > max_pow:
+            max_pow = motor_powers[i]
+
+    if abs(max_pow) > 100:
+        for i in motor_powers:
+            motor_powers[i] = MotorMovement.remap(motor_powers[i], -abs(max_pow), abs(max_pow), -100, 100)
 
     m2.send(motor_powers[0])
     m3.send(motor_powers[1])

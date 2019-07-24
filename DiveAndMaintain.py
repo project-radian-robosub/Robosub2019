@@ -80,7 +80,7 @@ def set_motor_powers():
             max_pow = motor_powers[i]
 
     if abs(max_pow) > 100:
-        for i in motor_powers:
+        for i in range(len(motor_powers)):
             motor_powers[i] = MotorMovement.remap(motor_powers[i], -abs(max_pow), abs(max_pow), -100, 100)
 
     m2.send(motor_powers[0])

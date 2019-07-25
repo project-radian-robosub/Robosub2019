@@ -81,6 +81,7 @@ def set_motor_powers():
     for i in range(len(motor_powers)):
         motor_powers[i] = 0
     for i in range(len(motor_powers)):
+        motor_powers[i] += acc_powers[i]
         motor_powers[i] += imu_powers[i]
         motor_powers[i] += pressure_powers[i]
         motor_powers[i] += move_powers[i]
@@ -103,14 +104,14 @@ def set_motor_powers():
     m7.send(motor_powers[5])
 
 
-def acc_pid_x_enable(value, kp, ki, kd):
+def acc_pid_x_enable(value, kp=0, ki=0, kd=0):
     if value:
         imu.set_acc_x_constants(kp, ki, kd)
     else:
         imu.set_acc_x_constants(0, 0, 0)
 
 
-def acc_pid_y_enable(value, kp, ki, kd):
+def acc_pid_y_enable(value, kp=0, ki=0, kd=0):
     if value:
         imu.set_acc_y_constants(kp, ki, kd)
     else:

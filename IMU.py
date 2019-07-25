@@ -143,9 +143,11 @@ class IMU:
         self.kp_acc_x = kp
         self.ki_acc_x = ki
         self.kd_acc_x = kd
+        self.pid_acc_x = PID(self.kp_acc_x, self.ki_acc_x, self.kd_acc_x, setpoint=self.setpoint_acc_x)
 
     def set_acc_y_constants(self, kp, ki, kd):
         self.kp_acc_y = kp
         self.ki_acc_y = ki
         self.kd_acc_y = kd
+        self.pid_acc_y = PID(self.kp_acc_y, self.ki_acc_y, self.kd_acc_y, setpoint=self.setpoint_acc_y)
 

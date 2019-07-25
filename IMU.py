@@ -43,9 +43,9 @@ class IMU:
     setpoint_z = 0
 
     def __init__(self, kp, ki, kd, setpoint_x=0, setpoint_y=0, setpoint_z=0):
-        self.pid_x = PID(kp, ki, kd, setpoint_x, output_limits=(-100, 100))
-        self.pid_y = PID(kp, ki, kd, setpoint_y, output_limits=(-100, 100))
-        self.pid_z = PID(kp, ki, kd, setpoint_z, output_limits=(-100, 100))
+        self.pid_x = PID(kp, ki, kd, setpoint_x, output_limits=(-60, 60))
+        self.pid_y = PID(kp, ki, kd, setpoint_y, output_limits=(-60, 60))
+        self.pid_z = PID(kp, ki, kd, setpoint_z, output_limits=(-60, 60))
         self.setpoint_x = setpoint_x
         self.setpoint_y = setpoint_y
         self.setpoint_z = setpoint_z

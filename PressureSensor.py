@@ -11,11 +11,14 @@ class Pressure:
     setpoint = 0
 
     def __init__(self, kp, ki, kd, setpoint=0):
-        self.pid_pressure = PID(kp, ki, kd, setpoint, output_limits=(-100, 100))
+        self.pid_pressure = PID(kp, ki, kd, setpoint, output_limits=(-60, 60))
         self.setpoint = setpoint
         self.kp = kp
         self.ki = ki
         self.kd = kd
+        if not p_sensor.init():
+            print("sensor could not be initialized")
+            exit(1)
 
     def get_val(self):
         p_sensor.read()

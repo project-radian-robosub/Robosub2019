@@ -3,8 +3,8 @@ from PressureSensor import Pressure
 import MotorMovement
 import time
 
-imu = IMU(1, 0, 0, 0, 0, 0)
-pressure = Pressure(1, 0, 0, setpoint=990)
+imu = IMU(1, 0, .2, 0, 0, 0)
+pressure = Pressure(3, 0, 1, setpoint=990)
 
 m2 = MotorMovement.motor_coroutine(0)
 m3 = MotorMovement.motor_coroutine(1)
@@ -51,7 +51,7 @@ def set_imu_powers():
 
 
 def set_pressure_powers():
-    pid = int(pressure.get_pid()[0])
+    pid = int(pressure.get_pid())
     pressure_powers[2] = -pid
     pressure_powers[3] = -pid
 
@@ -103,6 +103,7 @@ try:
         set_pressure_powers()
         set_move_powers(0, 0, 0, 0, 0, 0)
         set_motor_powers()
+        print(imu.get_angles(), pressure.get_val())
 
 except KeyboardInterrupt:
     stop_all()

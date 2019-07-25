@@ -2,7 +2,7 @@ from IMU import IMU
 from PressureSensor import Pressure
 import MotorMovement
 
-imu = IMU(kp_x=1, ki_x=0, kd_x=.2, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=0, kd_z=.2,
+imu = IMU(kp_x=1, ki_x=0, kd_x=.3, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=0, kd_z=.2,
           kp_acc_x=0, ki_acc_x=0, kd_acc_x=0, kp_acc_y=0, ki_acc_y=0, kd_acc_y=0,
           setpoint_acc_x=0, setpoint_acc_y=0, setpoint_x=0, setpoint_y=0, setpoint_z=0)
 

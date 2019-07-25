@@ -6,6 +6,8 @@ ser = Serial("/dev/ttyACM0", 9600)
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
 
+reverse = -1
+
 
 def wait_for_arduino():
     msg = ""

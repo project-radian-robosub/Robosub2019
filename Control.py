@@ -1,7 +1,6 @@
 from IMU import IMU
 from PressureSensor import Pressure
 import MotorMovement
-import time
 
 imu = IMU(kp_x=1, ki_x=0, kd_x=.2, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=0, kd_z=.2,
           kp_acc_x=0, ki_acc_x=0, kd_acc_x=0, kp_acc_y=0, ki_acc_y=0, kd_acc_y=0,
@@ -18,6 +17,7 @@ m7 = MotorMovement.motor_coroutine(5)
 
 motor_powers = [0, 0, 0, 0, 0, 0]
 
+acc_powers = [0, 0, 0, 0, 0, 0]
 imu_powers = [0, 0, 0, 0, 0, 0]
 pressure_powers = [0, 0, 0, 0, 0, 0]
 move_powers = [0, 0, 0, 0, 0, 0]
@@ -39,6 +39,15 @@ def stop_all():
     m5.send(0)
     m6.send(0)
     m7.send(0)
+
+
+def set_acc_powers():
+    x = int(imu.get_acc_pid()[0])
+    y = int(imu.get_acc_pid()[1])
+    acc_powers[0] = -y
+    acc_powers[1] = -x
+    acc_powers[4] = -x
+    acc_powers[5] = -y
 
 
 def set_imu_powers():
@@ -106,26 +115,3 @@ def acc_pid_y_enable(value, kp, ki, kd):
         imu.set_acc_y_constants(kp, ki, kd)
     else:
         imu.set_acc_y_constants(0, 0, 0)
-
-
-MotorMovement.wait_for_arduino()
-
-stop_all()
-
-time.sleep(0.1)
-
-try:
-    while True:
-        set_imu_powers()
-        set_pressure_powers()
-        set_move_powers(0, 0, 0, 0, 0, 0)
-        set_motor_powers()
-        print(imu.get_angles(), pressure.get_val())
-
-except KeyboardInterrupt:
-    stop_all()
-    print("end")
-
-finally:
-    stop_all()
-    print("end")

@@ -1,5 +1,6 @@
 import time
+import Control
 
 while True:
-    print(time.perf_counter())
+    print(Control.imu.get_acc())
     time.sleep(0.01)

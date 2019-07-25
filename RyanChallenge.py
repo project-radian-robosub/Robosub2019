@@ -39,7 +39,7 @@ try:
         timer2 = time.perf_counter()
         print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
 
-    ctr.imu.set_z(90)
+    ctr.imu.set_z(180)
 
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()

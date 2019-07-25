@@ -9,29 +9,11 @@ sensor = adafruit_bno055.BNO055(i2c)
 
 def recenter(center, value):
     difference = value - center
-    threshold = 0
 
-    if center < 180:
-        threshold = center + 180
-    elif center >= 180:
-        threshold = center - 180
-
-    if center > value > threshold:
-        return difference
-    elif value > center > threshold:
-        return difference
-    elif value > threshold > center:
-        return difference - 360
-    elif threshold > value > center:
-        return difference
-    elif threshold > center > value:
-        return difference
-    elif center > threshold > value:
+    if abs(difference) > 180:
         return difference + 360
-    elif value == threshold:
-        return difference
     else:
-        return 0
+        return difference
 
 
 class IMU:
@@ -70,8 +52,8 @@ class IMU:
         self.pid_y = PID(kp_y, ki_y, kd_y, setpoint_y, output_limits=(-60, 60))
         self.pid_z = PID(kp_z, ki_z, kd_z, setpoint_z, output_limits=(-60, 60))
 
-        self.pid_acc_x = PID(kp_acc_x, ki_acc_x, kd_acc_x, setpoint_acc_x, output_limits=(-50, 50))
-        self.pid_acc_y = PID(kp_acc_y, ki_acc_y, kd_acc_y, setpoint_acc_y, output_limits=(-50, 50))
+        self.pid_acc_x = PID(kp_acc_x, ki_acc_x, kd_acc_x, setpoint_acc_x, output_limits=(-60, 60))
+        self.pid_acc_y = PID(kp_acc_y, ki_acc_y, kd_acc_y, setpoint_acc_y, output_limits=(-60, 60))
 
         self.setpoint_x = setpoint_x
         self.setpoint_y = setpoint_y
@@ -121,15 +103,15 @@ class IMU:
 
     def set_x(self, value):
         self.setpoint_x = value
-        self.pid_x = PID(self.kp_x, self.ki_x, self.kd_x, setpoint=self.setpoint_x, output_limits=(50,-50))
+        self.pid_x = PID(self.kp_x, self.ki_x, self.kd_x, setpoint=self.setpoint_x, output_limits=(60, -60))
 
     def set_y(self, value):
         self.setpoint_y = value
-        self.pid_y = PID(self.kp_y, self.ki_y, self.kd_y, setpoint=self.setpoint_y, output_limits=(50,-50))
+        self.pid_y = PID(self.kp_y, self.ki_y, self.kd_y, setpoint=self.setpoint_y, output_limits=(60, -60))
 
     def set_z(self, value):
         self.setpoint_z = value
-        self.pid_z = PID(self.kp_z, self.ki_z, self.kd_z, setpoint=self.setpoint_z, output_limits=(50,-50))
+        self.pid_z = PID(self.kp_z, self.ki_z, self.kd_z, setpoint=self.setpoint_z, output_limits=(60, -60))
 
     def set_acc_x(self, value):
         self.setpoint_acc_x = value

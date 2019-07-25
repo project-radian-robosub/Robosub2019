@@ -6,7 +6,7 @@ imu = IMU(kp_x=1, ki_x=0, kd_x=.3, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=0, kd_z
           kp_acc_x=0, ki_acc_x=0, kd_acc_x=0, kp_acc_y=0, ki_acc_y=0, kd_acc_y=0,
           setpoint_acc_x=0, setpoint_acc_y=0, setpoint_x=0, setpoint_y=0, setpoint_z=0)
 
-pressure = Pressure(3, 0, 1, setpoint=990)
+pressure = Pressure(3, 0, 1.5, setpoint=990)
 
 m2 = MotorMovement.motor_coroutine(0)
 m3 = MotorMovement.motor_coroutine(1)

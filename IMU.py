@@ -11,7 +11,7 @@ def recenter(center, value):
     difference = value - center
 
     if abs(difference) > 180:
-        return difference + 360
+        return difference - (360 * (difference / abs(difference)))
     else:
         return difference
 

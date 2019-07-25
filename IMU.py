@@ -6,12 +6,11 @@ import adafruit_bno055
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055(i2c)
 
-
 def recenter(center, value):
     difference = value - center
 
     if abs(difference) > 180:
-        return difference + 360
+        return difference - (360 * (difference/abs(difference)))
     else:
         return difference
 

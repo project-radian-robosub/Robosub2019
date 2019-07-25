@@ -20,10 +20,10 @@ try:
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
 
-    while timer2 - timer1 < 5:
+    while timer2 - timer1 < 25:
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
-        ctr.set_move_powers(50, 0, 0, 0, 0, 50)
+        ctr.set_move_powers(75, 0, 0, 0, 0, 75)
         ctr.set_motor_powers()
         timer2 = time.perf_counter()
         print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
@@ -38,6 +38,8 @@ try:
         ctr.set_motor_powers()
         timer2 = time.perf_counter()
         print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+
+    exit(1)
 
     ctr.imu.set_z(180)
 

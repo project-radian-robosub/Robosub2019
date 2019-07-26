@@ -2,6 +2,7 @@ from simple_pid import PID
 import board
 import busio
 import adafruit_bno055
+import time
 
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055(i2c)
@@ -16,32 +17,6 @@ def recenter(center, value):
 
 
 class IMU:
-    kp_x = 0
-    ki_x = 0
-    kd_x = 0
-    kp_y = 0
-    ki_y = 0
-    kd_y = 0
-    kp_z = 0
-    ki_z = 0
-    kd_z = 0
-
-    kp_acc_x = 0
-    ki_acc_x = 0
-    kd_acc_x = 0
-    kp_acc_y = 0
-    ki_acc_y = 0
-    kd_acc_y = 0
-    kp_acc_z = 0
-    ki_acc_z = 0
-    kd_acc_z = 0
-
-    setpoint_x = 0
-    setpoint_y = 0
-    setpoint_z = 0
-
-    setpoint_acc_x = 0
-    setpoint_acc_y = 0
 
     def __init__(self, kp_x=0, ki_x=0, kd_x=0, kp_y=0, ki_y=0, kd_y=0, kp_z=0, ki_z=0, kd_z=0,
                  kp_acc_x=0, ki_acc_x=0, kd_acc_x=0, kp_acc_y=0, ki_acc_y=0, kd_acc_y=0,
@@ -102,7 +77,10 @@ class IMU:
 
     def set_x(self, value):
         self.setpoint_x = value
+        # self.pid_x.auto_mode = False
+        # time.sleep(.1)
         self.pid_x.setpoint = self.setpoint_x
+        # self.pid_x.auto_mode = True
 
     def set_y(self, value):
         self.setpoint_y = value
@@ -110,7 +88,11 @@ class IMU:
 
     def set_z(self, value):
         self.setpoint_z = value
-        self.pid_z = self.setpoint_z
+        # self.pid_z.auto_mode = False
+        # time.sleep(.1)
+        self.pid_z.setpoint = self.setpoint_z
+        # self.pid_z.auto_mode = False
+        # self.pid_z.automode = True
 
     def set_acc_x(self, value):
         self.setpoint_acc_x = value

@@ -102,15 +102,15 @@ class IMU:
 
     def set_x(self, value):
         self.setpoint_x = value
-        self.pid_x = PID(self.kp_x, self.ki_x, self.kd_x, setpoint=self.setpoint_x, output_limits=(60, -60))
+        self.pid_x.setpoint = self.setpoint_x
 
     def set_y(self, value):
         self.setpoint_y = value
-        self.pid_y = PID(self.kp_y, self.ki_y, self.kd_y, setpoint=self.setpoint_y, output_limits=(60, -60))
+        self.pid_y.setpoint = self.setpoint_y
 
     def set_z(self, value):
         self.setpoint_z = value
-        self.pid_z = PID(self.kp_z, self.ki_z, self.kd_z, setpoint=self.setpoint_z, output_limits=(60, -60))
+        self.pid_z = self.setpoint_z
 
     def set_acc_x(self, value):
         self.setpoint_acc_x = value

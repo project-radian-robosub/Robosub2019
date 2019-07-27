@@ -74,6 +74,5 @@ def motor_coroutine(motor_num):
                 ser.write(write_all_motors.encode())
                 time.sleep(.005)
 
-
     except GeneratorExit:
         print("motor co-routine closed")

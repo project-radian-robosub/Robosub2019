@@ -2,7 +2,7 @@ import time
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
-
+current_vals = [0, 0, 0, 0, 0, 0]
 
 def remap(x, b1, b2, v1, v2):
     prop = (x - b1) / (b2 - b1)
@@ -41,7 +41,7 @@ def motor_coroutine(motor_num):
                     write_all_motors += i
 
                 print(write_all_motors)
-                time.sleep(.01)
+                time.sleep(.001)
 
             while targets[motor_num] > target:
 
@@ -58,7 +58,7 @@ def motor_coroutine(motor_num):
                     write_all_motors += i
 
                 print(write_all_motors)
-                time.sleep(.01)
+                time.sleep(.001)
 
     except GeneratorExit:
         print("motor co-routine closed")

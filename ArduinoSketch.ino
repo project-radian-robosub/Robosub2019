@@ -1,5 +1,7 @@
 #include<Servo.h>
 
+int photoresistorpin = A0;
+int photoresistorvalue = 0;
 
 Servo m2;
 Servo m3;
@@ -15,6 +17,10 @@ String values = "";
 void setup() {
   
   Serial.begin(9600);
+
+  while (analogRead(photoresistorpin) < 300) {
+    
+  }
 
   m2.attach(2);
   m3.attach(3);

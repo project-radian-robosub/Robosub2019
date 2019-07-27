@@ -95,20 +95,6 @@ def stop():
     m7_corou.send(0)
 
 
-def count_files(path):
-    path, dirs, files = next(os.walk(path))
-    return len(files)
-
-
-user = input('What is the name of the user: \n')
-path = '/home/%s/TeleOpData/TeleOpImages' % user
-count = count_files(path) + 1
-
-camera = cv2.VideoCapture(1)
-if camera.read() == (False, None):
-    camera = cv2.VideoCapture(0)
-
-
 try:
     wait_for_arduino()
 
@@ -124,10 +110,6 @@ try:
     text_file = open(r"/home/%s/TeleOpData/TeleOpSensorData/Data.txt", "w")
 
     while True:
-
-        return_value, image = camera.read()
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        cv2.imshow('image', image)
 
         if cv2.waitKey(1) & 0xFF == ord('z'):
             break
@@ -170,11 +152,6 @@ try:
 
         if cv2.waitKey(1) & 0xFF == ord('f'):
             stop()
-
-        if cv2.waitKey(1) & 0xFF == ord('g'):
-            status = cv2.imwrite(os.path.join(path, '%d.jpg' % count), image)
-            count += 1
-            print(status)
 
         text_file.write(str(int(pressure.get_val())), str(int(imu.get_angles())))
 

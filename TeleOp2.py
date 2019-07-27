@@ -157,7 +157,6 @@ try:
 
 
 finally:
-    camera.release()
     cv2.destroyAllWindows()
     targets = [0, 0, 0, 0, 0, 0]
     stop()

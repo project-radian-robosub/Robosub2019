@@ -110,47 +110,48 @@ try:
     text_file = open(r"/home/%s/TeleOpData/TeleOpSensorData/Data.txt", "w")
 
     while True:
+        char = input("?")
 
-        if cv2.waitKey(1) & 0xFF == ord('z'):
+        if char == "z":
             break
 
-        if cv2.waitKey(1) & 0xFF == ord('w'):
+        if char == "w":
             forward_backward(pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('s'):
+        if char == "s":
             forward_backward(-pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('a'):
+        if char == "a":
             left_right(-pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('d'):
+        if char == "d":
             left_right(pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if char == "q":
             up_down(-pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('e'):
+        if char == "e":
             up_down(pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('i'):
+        if char == "i":
             pitch(pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('k'):
+        if char == "k":
             pitch(-pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('j'):
+        if char == "j":
             yaw(-pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('l'):
+        if char == "l":
             yaw(pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('u'):
+        if char == "u":
             roll(-pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('o'):
+        if char == "o":
             roll(pwr)
 
-        if cv2.waitKey(1) & 0xFF == ord('f'):
+        if char == "f":
             stop()
 
         text_file.write(str(int(pressure.get_val())), str(int(imu.get_angles())))

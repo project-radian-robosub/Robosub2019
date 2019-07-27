@@ -90,7 +90,7 @@ def stop():
     m7_corou.send(0)
 
 
-text_file = open(r"/home/%s/TeleOpData/TeleOpSensorData/Data.txt", "w")
+text_file = open(r"/home/projectradian/TeleOpData/TeleOpSensorData/Data.txt", "w")
 
 
 try:

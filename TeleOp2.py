@@ -1,162 +1,114 @@
-from serial import Serial
-import MotorMovement
-import IMU
-import PressureSensor
-
-targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
-motor_strings = ["050", "050", "050", "050", "050", "050"]
-all_motors_stop = "050050050050050050"
-pwr = 30
-
-ser = Serial("/dev/ttyACM0", 9600)
+import Control
+import sys, termios, tty
+import time
 
 
-def wait_for_arduino():
-    msg = ""
-    while msg.find("ready") == -1:
-        if ser.inWaiting() > 0:
-            c = ser.read()
-            msg += c.decode('utf-8')
-            print("Arduino" + msg)
+def getch():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 
-wait_for_arduino()
+ctr = Control
 
+ctr.MotorMovement.wait_for_arduino()
 
-def remap(x, b1, b2, v1, v2):
-    prop = (x - b1) / (b2 - b1)
-    new_prop = prop * (v2 - v1)
-    new = v1 + new_prop
-    return new
+ctr.stop_all()
 
+time.sleep(0.1)
 
-def forward_backward(power):
-    m2_corou.send(power)
-    m3_corou.send(0)
-    m4_corou.send(0)
-    m5_corou.send(0)
-    m6_corou.send(0)
-    m7_corou.send(power)
-
-
-def left_right(power):
-    m2_corou.send(0)
-    m3_corou.send(power)
-    m4_corou.send(0)
-    m5_corou.send(0)
-    m6_corou.send(power)
-    m7_corou.send(0)
-
-
-def up_down(power):
-    m2_corou.send(0)
-    m3_corou.send(0)
-    m4_corou.send(power)
-    m5_corou.send(power)
-    m6_corou.send(0)
-    m7_corou.send(0)
-
-
-def roll(power):
-    m2_corou.send(0)
-    m3_corou.send(power)
-    m4_corou.send(0)
-    m5_corou.send(0)
-    m6_corou.send(-power)
-    m7_corou.send(0)
-
-
-def pitch(power):
-    m2_corou.send(0)
-    m3_corou.send(0)
-    m4_corou.send(-power)
-    m5_corou.send(power)
-    m6_corou.send(0)
-    m7_corou.send(0)
-
-
-def yaw(power):
-    m2_corou.send(power)
-    m3_corou.send(0)
-    m4_corou.send(0)
-    m5_corou.send(0)
-    m6_corou.send(0)
-    m7_corou.send(-power)
-
-
-def stop():
-    m2_corou.send(0)
-    m3_corou.send(0)
-    m4_corou.send(0)
-    m5_corou.send(0)
-    m6_corou.send(0)
-    m7_corou.send(0)
-
+x = 0
+y = 0
+depth = 990
+x_rot = 0
+y_rot = 0
+z_rot = 0
 
 try:
-
-    text_file = open(r"/home/projectradian/TeleOpData/TeleOpSensorData/Data.txt", "w")
-    imu = IMU.IMU()
-    pressure = PressureSensor.Pressure()
-
-    m2_corou = MotorMovement.motor_coroutine(0)
-    m3_corou = MotorMovement.motor_coroutine(1)
-    m4_corou = MotorMovement.motor_coroutine(2)
-    m5_corou = MotorMovement.motor_coroutine(3)
-    m6_corou = MotorMovement.motor_coroutine(4)
-    m7_corou = MotorMovement.motor_coroutine(5)
-
-    ser.write(all_motors_stop.encode())
-
     while True:
-
-        text_file.write(str(int(pressure.get_val())), str(int(imu.get_angles())))
-
-        char = input("?")
+        char = getch()
 
         if char == "z":
             break
 
         if char == "w":
-            forward_backward(pwr)
+            y += 1
+            time.sleep(.001)
 
         if char == "s":
-            forward_backward(-pwr)
+            y -= 1
+            time.sleep(.001)
 
         if char == "a":
-            left_right(-pwr)
+            x -= 1
+            time.sleep(.001)
 
         if char == "d":
-            left_right(pwr)
+            x += 1
+            time.sleep(.001)
 
         if char == "q":
-            up_down(-pwr)
+            depth -= 1
+            time.sleep(.001)
 
         if char == "e":
-            up_down(pwr)
+            depth += 1
+            time.sleep(.001)
 
         if char == "i":
-            pitch(pwr)
+            x_rot += 1
+            time.sleep(.001)
 
         if char == "k":
-            pitch(-pwr)
+            x_rot -= 1
+            time.sleep(.001)
 
         if char == "j":
-            yaw(-pwr)
+            z_rot -= 1
+            time.sleep(.001)
 
         if char == "l":
-            yaw(pwr)
+            z_rot += 1
+            time.sleep(.001)
 
         if char == "u":
-            roll(-pwr)
+            y_rot -= 1
+            time.sleep(.001)
 
         if char == "o":
-            roll(pwr)
+            y_rot += 1
+            time.sleep(.001)
+
+        if char == "r":
+            x = 0
+            y = 0
+            depth = 990
+            x_rot = 0
+            y_rot = 0
+            z_rot = 0
 
         if char == "f":
-            stop()
+            ctr.stop_all()
 
+        ctr.imu.set_x(x_rot)
+        ctr.imu.set_y(y_rot)
+        ctr.imu.set_z(z_rot)
+        ctr.pressure.set_tar(depth)
+        ctr.set_imu_powers()
+        ctr.set_pressure_powers()
+        ctr.set_move_powers(y, x, 0, 0, x, y)
+        ctr.set_motor_powers()
+
+except KeyboardInterrupt:
+    ctr.stop_all()
+    print("end")
 
 finally:
-    targets = [0, 0, 0, 0, 0, 0]
-    stop()
+    ctr.stop_all()
+    print("end")

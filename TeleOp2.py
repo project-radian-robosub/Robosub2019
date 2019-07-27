@@ -25,6 +25,9 @@ def wait_for_arduino():
             print("Arduino" + msg)
 
 
+wait_for_arduino()
+
+
 def remap(x, b1, b2, v1, v2):
     prop = (x - b1) / (b2 - b1)
     new_prop = prop * (v2 - v1)
@@ -96,7 +99,7 @@ def stop():
 
 
 try:
-    wait_for_arduino()
+    # wait_for_arduino()
 
     m2_corou = MotorMovement.motor_coroutine(0)
     m3_corou = MotorMovement.motor_coroutine(1)

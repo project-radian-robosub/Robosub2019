@@ -13,7 +13,7 @@ try:
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
 
-    while timer2 - timer1 < 5:
+    while timer2 - timer1 < 7:
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(0, 0, 0, 0, 0, 0)
@@ -26,7 +26,7 @@ try:
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
 
-    while timer2 - timer1 < 15:
+    while timer2 - timer1 < 30:
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(0, 0, 0, 0, 0, 0)

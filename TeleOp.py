@@ -5,7 +5,7 @@ import time
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
 all_motors_stop = "050050050050050050"
-pwr = 30
+pwr = 60
 
 ser = Serial("/dev/ttyACM0", 9600)
 

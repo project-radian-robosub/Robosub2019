@@ -10,7 +10,7 @@ ctr.stop_all()
 time.sleep(0.1)
 
 try:
-    while ctr.pressure.get_val() < 980:  # dive
+    while ctr.pressure.get_val() < 890:  # dive
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(0, 0, 0, 0, 0, 0)
@@ -23,7 +23,7 @@ try:
     while timer2 - timer1 < 10:  # forward
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
-        ctr.set_move_powers(75, 0, 0, 0, 0, 75)
+        ctr.set_move_powers(0, 50, 0, 0, 50, 0)
         ctr.set_motor_powers()
         timer2 = time.perf_counter()
         print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
@@ -39,7 +39,7 @@ try:
         timer2 = time.perf_counter()
         print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
 
-    ctr.imu.set_z(180)  # set new target
+    # ctr.imu.set_z(180)  # set new target
 
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
@@ -57,7 +57,7 @@ try:
     while timer2 - timer1 < 10:  # go forward
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
-        ctr.set_move_powers(75, 0, 0, 0, 0, 75)
+        ctr.set_move_powers(0, -50, 0, 0, -50, 0)
         ctr.set_motor_powers()
         timer2 = time.perf_counter()
         print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)

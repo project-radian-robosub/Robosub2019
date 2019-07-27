@@ -20,7 +20,7 @@ try:
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
 
-    while timer2 - timer1 < 20:  # forward
+    while timer2 - timer1 < 10:  # forward
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(75, 0, 0, 0, 0, 75)
@@ -44,7 +44,7 @@ try:
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
 
-    while timer2 - timer1 < 15:  # allow time to reach new target
+    while timer2 - timer1 < 7:  # allow time to reach new target
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(0, 0, 0, 0, 0, 0)
@@ -54,7 +54,7 @@ try:
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
 
-    while timer2 - timer1 < 20:  # go forward
+    while timer2 - timer1 < 10:  # go forward
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(75, 0, 0, 0, 0, 75)

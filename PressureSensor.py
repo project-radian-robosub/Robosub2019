@@ -9,7 +9,7 @@ class Pressure:
     ki = 0
     kd = 0
 
-    def __init__(self, kp, ki, kd, setpoint=0):
+    def __init__(self, kp=0, ki=0, kd=0, setpoint=0):
         self.pid_pressure = PID(kp, ki, kd, setpoint, output_limits=(-60, 60))
         self.kp = kp
         self.ki = ki

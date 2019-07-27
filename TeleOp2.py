@@ -1,13 +1,19 @@
 from serial import Serial
 import MotorMovement
-import time
+import cv2
+import os
+import IMU
+import PressureSensor
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
 all_motors_stop = "050050050050050050"
-pwr = 30
+pwr = 20
 
 ser = Serial("/dev/ttyACM0", 9600)
+
+imu = IMU.IMU()
+pressure = PressureSensor.Pressure()
 
 
 def wait_for_arduino():
@@ -89,6 +95,20 @@ def stop():
     m7_corou.send(0)
 
 
+def count_files(path):
+    path, dirs, files = next(os.walk(path))
+    return len(files)
+
+
+user = input('What is the name of the user: \n')
+path = '/home/%s/TeleOpData/TeleOpImages' % user
+count = count_files(path) + 1
+
+camera = cv2.VideoCapture(1)
+if camera.read() == (False, None):
+    camera = cv2.VideoCapture(0)
+
+
 try:
     wait_for_arduino()
 
@@ -101,52 +121,66 @@ try:
 
     ser.write(all_motors_stop.encode())
 
-    while True:
-        char = input("?")
+    text_file = open(r"/home/%s/TeleOpData/TeleOpSensorData/Data.txt", "w")
 
-        if char == "z":
+    while True:
+
+        return_value, image = camera.read()
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        cv2.imshow('image', image)
+
+        if cv2.waitKey(1) & 0xFF == ord('z'):
             break
 
-        if char == "w":
+        if cv2.waitKey(1) & 0xFF == ord('w'):
             forward_backward(pwr)
 
-        if char == "s":
+        if cv2.waitKey(1) & 0xFF == ord('s'):
             forward_backward(-pwr)
 
-        if char == "a":
+        if cv2.waitKey(1) & 0xFF == ord('a'):
             left_right(-pwr)
 
-        if char == "d":
+        if cv2.waitKey(1) & 0xFF == ord('d'):
             left_right(pwr)
 
-        if char == "q":
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             up_down(-pwr)
 
-        if char == "e":
+        if cv2.waitKey(1) & 0xFF == ord('e'):
             up_down(pwr)
 
-        if char == "i":
+        if cv2.waitKey(1) & 0xFF == ord('i'):
             pitch(pwr)
 
-        if char == "k":
+        if cv2.waitKey(1) & 0xFF == ord('k'):
             pitch(-pwr)
 
-        if char == "j":
+        if cv2.waitKey(1) & 0xFF == ord('j'):
             yaw(-pwr)
 
-        if char == "l":
+        if cv2.waitKey(1) & 0xFF == ord('l'):
             yaw(pwr)
 
-        if char == "u":
+        if cv2.waitKey(1) & 0xFF == ord('u'):
             roll(-pwr)
 
-        if char == "o":
+        if cv2.waitKey(1) & 0xFF == ord('o'):
             roll(pwr)
 
-        if char == "f":
+        if cv2.waitKey(1) & 0xFF == ord('f'):
             stop()
+
+        if cv2.waitKey(1) & 0xFF == ord('g'):
+            status = cv2.imwrite(os.path.join(path, '%d.jpg' % count), image)
+            count += 1
+            print(status)
+
+        text_file.write(str(int(pressure.get_val())), str(int(imu.get_angles())))
 
 
 finally:
+    camera.release()
+    cv2.destroyAllWindows()
     targets = [0, 0, 0, 0, 0, 0]
     stop()

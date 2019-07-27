@@ -90,12 +90,10 @@ def stop():
     m7_corou.send(0)
 
 
-text_file = open(r"/home/projectradian/TeleOpData/TeleOpSensorData/Data.txt", "w")
-
-
 try:
     wait_for_arduino()
 
+    text_file = open(r"/home/projectradian/TeleOpData/TeleOpSensorData/Data.txt", "w")
     imu = IMU.IMU()
     pressure = PressureSensor.Pressure()
 

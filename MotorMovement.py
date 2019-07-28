@@ -1,5 +1,6 @@
-from serial import Serial
 import time
+
+from serial import Serial
 
 ser = Serial("/dev/ttyACM0", 9600)
 
@@ -34,6 +35,18 @@ def coroutine(func):
     return start
 
 
+def vals_to_serial(vals):
+    for i in range(len(vals)):
+        motor_strings[i] = str(int(remap(vals[i], -100, 100, 0, 100)))
+        while len(motor_strings[i]) < 3:
+            motor_strings[i] = '0' + motor_strings[i]
+    write_all = ''
+    for i in motor_strings:
+        write_all += i
+
+    ser.write(write_all.encode())
+
+
 def motor_generator():
     try:
         while True:
@@ -42,35 +55,11 @@ def motor_generator():
 
                     current_vals[motor_num] += 5
 
-                    mot_str = str(int(remap(current_vals[motor_num], -100, 100, 0, 100)))
-
-                    while len(mot_str) < 3:
-                        mot_str = "0" + mot_str
-
-                    motor_strings[motor_num] = mot_str
-                    write_all_motors = ""
-
-                    for i in motor_strings:
-                        write_all_motors += i
-
-                    ser.write(write_all_motors.encode())
-
                 if current_vals[motor_num] > targets[motor_num]:
 
                     current_vals[motor_num] -= 5
 
-                    mot_str = str(int(remap(current_vals[motor_num], -100, 100, 0, 100)))
-
-                    while len(mot_str) < 3:
-                        mot_str = "0" + mot_str
-
-                    motor_strings[motor_num] = mot_str
-                    write_all_motors = ""
-
-                    for i in motor_strings:
-                        write_all_motors += i
-
-                    ser.write(write_all_motors.encode())
+            vals_to_serial(current_vals)
 
             time.sleep(.01)
 

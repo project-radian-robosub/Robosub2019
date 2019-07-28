@@ -20,8 +20,18 @@ def coroutine(func):
     return start
 
 
-@coroutine
-def motor_coroutine():
+def vals_to_serial(vals):
+    for i in range(len(vals)):
+        motor_strings[i] = str(int(remap(vals[i], -100, 100, 0, 100)))
+        while len(motor_strings[i]) < 3:
+            motor_strings[i] = '0' + motor_strings[i]
+    write_all = ''
+    for i in motor_strings:
+        write_all += i
+    print(write_all)
+
+
+def motor_generator():
     try:
         while True:
             for motor_num in range(6):
@@ -29,36 +39,11 @@ def motor_coroutine():
 
                     current_vals[motor_num] += 5
 
-                    mot_str = str(int(remap(current_vals[motor_num], -100, 100, 0, 100)))
-
-                    while len(mot_str) < 3:
-                        mot_str = "0" + mot_str
-
-                    motor_strings[motor_num] = mot_str
-                    write_all_motors = ""
-
-                    for i in motor_strings:
-                        write_all_motors += i
-
-                    print(write_all_motors)
-
                 if current_vals[motor_num] > targets[motor_num]:
 
                     current_vals[motor_num] -= 5
 
-                    mot_str = str(int(remap(current_vals[motor_num], -100, 100, 0, 100)))
-
-                    while len(mot_str) < 3:
-                        mot_str = "0" + mot_str
-
-                    motor_strings[motor_num] = mot_str
-                    write_all_motors = ""
-
-                    for i in motor_strings:
-                        write_all_motors += i
-
-                    print(write_all_motors)
-
+            vals_to_serial(current_vals)
             time.sleep(.01)
 
             yield
@@ -67,15 +52,13 @@ def motor_coroutine():
         print("motor co-routine closed")
 
 
-motors = motor_coroutine()
-
-motors.send(targets)
+motors = motor_generator()
 
 targets = [0, 100, 0, 100, 0, 0]
 
 while time.perf_counter() < .5:
     motors.__next__()
-
+print('change')
 targets = [0, -100, -100, -100, 100, 100]
 
 while time.perf_counter() < 1:

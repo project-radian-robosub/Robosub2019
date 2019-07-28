@@ -2,7 +2,8 @@ import IMU
 import MotorMovement
 from PressureSensor import Pressure
 
-imu = IMU.IMU(kp_x=0, ki_x=0, kd_x=0, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=.00, kd_z=.7)
+imu = IMU.IMU(kp_x=0, ki_x=0, kd_x=0, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=.00, kd_z=.7,
+              kp_acc_x=0, ki_acc_x=0, kd_acc_x=0, kp_acc_y=0, ki_acc_y=0, kd_acc_y=0)
 
 print(IMU.sensor.euler, IMU.sensor.acceleration)
 
@@ -30,8 +31,8 @@ def set_acc_powers():
     x = int(imu.get_acc_pid()[0])
     y = int(imu.get_acc_pid()[1])
     acc_powers[0] = y
-    acc_powers[1] = x
-    acc_powers[4] = x
+    acc_powers[1] = -x
+    acc_powers[4] = -x
     acc_powers[5] = y
 
 

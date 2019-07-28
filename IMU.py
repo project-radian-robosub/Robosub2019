@@ -90,3 +90,15 @@ class IMU:
         pid_input_y = sensor.acceleration[0]
         pid_tuple = (self.pid_acc_x(pid_input_x), self.pid_acc_y(pid_input_y))
         return pid_tuple
+
+    def enable_acc_x_pid(self, enable):
+        if enable:
+            self.pid_acc_x = PID(self.kp_acc_x, self.ki_acc_x, self.kd_acc_x, 0)
+        else:
+            self.pid_acc_x = PID(0, 0, 0, 0)
+
+    def enable_acc_y_pid(self, enable):
+        if enable:
+            self.pid_acc_y = PID(self.kp_acc_y, self.ki_acc_y, self.kd_acc_y, 0)
+        else:
+            self.pid_acc_y = PID(0, 0, 0, 0)

@@ -1,6 +1,7 @@
 import time
+
 import Control
 
 while True:
-    print(Control.pressure.get_val())
+    print(Control.imu.sensor.magnet)
     time.sleep(0.1)

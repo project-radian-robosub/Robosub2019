@@ -3,5 +3,5 @@ import time
 import IMU
 
 while True:
-    print(IMU.sensor.magnet)
+    print(IMU.sensor.magnetic)
     time.sleep(0.1)

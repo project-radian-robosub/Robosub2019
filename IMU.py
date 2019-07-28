@@ -86,7 +86,7 @@ class IMU:
         self.center_z = value
 
     def get_acc_pid(self):
-        pid_input_x = gravity_correction(sensor.euler[2], sensor.acceleration[1])
-        pid_input_y = gravity_correction(sensor.euler[1], sensor.acceleration[0])
+        pid_input_x = sensor.acceleration[1]
+        pid_input_y = sensor.acceleration[0]
         pid_tuple = (self.pid_acc_x(pid_input_x), self.pid_acc_y(pid_input_y))
         return pid_tuple

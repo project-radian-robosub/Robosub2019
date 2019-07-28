@@ -4,7 +4,7 @@ from PressureSensor import Pressure
 
 imu = IMU.IMU(kp_x=0, ki_x=0, kd_x=0, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=.00, kd_z=.7)
 
-IMU.sensor.displayCalStatus()
+# IMU.sensor.displayCalStatus()
 
 pressure = Pressure(2.5, 0, 1.5, setpoint=920)
 

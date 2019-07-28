@@ -2,7 +2,7 @@ import time
 
 import IMU
 
-IMU.sensor.displayCalStatus()
+# IMU.sensor.displayCalStatus()
 
 while True:
     print(IMU.sensor.acceleration, IMU.print_corrected_acc())

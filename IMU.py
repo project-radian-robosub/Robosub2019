@@ -19,7 +19,7 @@ def recenter(center, value):
 
 
 def gravity_correction(angle, value):
-    gravity_component = 9.806 * math.sin(angle)
+    gravity_component = 9.806 * math.sin(math.degrees(angle))
     correction = value - gravity_component
     return correction
 

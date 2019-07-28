@@ -8,7 +8,7 @@ import MotorMovement
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 max_pwr = 60
-
+pwr = 20
 
 def remap(x, b1, b2, v1, v2):
     prop = (x - b1) / (b2 - b1)
@@ -54,86 +54,86 @@ try:
 
         if cv2.waitKey(5) & 0xFF == ord('w'):
             if targets[0] < max_pwr:
-                targets[0] += 1
+                targets[0] += pwr
             if targets[5] < max_pwr:
-                targets[5] += 1
+                targets[5] += pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('s'):
             if targets[0] < max_pwr:
-                targets[0] -= 1
+                targets[0] -= pwr
             if targets[5] < max_pwr:
-                targets[5] -= 1
+                targets[5] -= pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('a'):
             if targets[1] < max_pwr:
-                targets[1] -= 1
+                targets[1] -= pwr
             if targets[4] < max_pwr:
-                targets[4] -= 1
+                targets[4] -= pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('d'):
             if targets[1] < max_pwr:
-                targets[1] += 1
+                targets[1] += pwr
             if targets[4] < max_pwr:
-                targets[4] += 1
+                targets[4] += pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             if targets[2] < max_pwr:
-                targets[2] -= 1
+                targets[2] -= pwr
             if targets[3] < max_pwr:
-                targets[3] -= 1
+                targets[3] -= pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('e'):
             if targets[2] < max_pwr:
-                targets[2] += 1
+                targets[2] += pwr
             if targets[3] < max_pwr:
-                targets[3] += 1
+                targets[3] += pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('i'):
             if targets[2] < max_pwr:
-                targets[2] += 1
+                targets[2] += pwr
             if targets[3] < max_pwr:
-                targets[3] -= 1
+                targets[3] -= pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('k'):
             if targets[2] < max_pwr:
-                targets[2] -= 1
+                targets[2] -= pwr
             if targets[3] < max_pwr:
-                targets[3] += 1
+                targets[3] += pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('j'):
             if targets[0] < max_pwr:
-                targets[0] += 1
+                targets[0] += pwr
             if targets[5] < max_pwr:
-                targets[5] -= 1
+                targets[5] -= pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('l'):
             if targets[0] < max_pwr:
-                targets[0] -= 1
+                targets[0] -= pwr
             if targets[5] < max_pwr:
-                targets[5] += 1
+                targets[5] += pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('u'):
             if targets[1] < max_pwr:
-                targets[1] -= 1
+                targets[1] -= pwr
             if targets[4] < max_pwr:
-                targets[4] += 1
+                targets[4] += pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('o'):
             if targets[1] < max_pwr:
-                targets[1] += 1
+                targets[1] += pwr
             if targets[4] < max_pwr:
-                targets[4] -= 1
+                targets[4] -= pwr
             time.sleep(.01)
 
         if cv2.waitKey(1) & 0xFF == ord('f'):

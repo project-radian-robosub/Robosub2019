@@ -1,9 +1,0 @@
-Gate
-Path
-w
-wPath
-P ath
-Pathw
-wGate
-Gatew
-PathwPath

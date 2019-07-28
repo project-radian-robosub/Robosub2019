@@ -1,8 +1,9 @@
-from simple_pid import PID
+import math
+
+import adafruit_bno055
 import board
 import busio
-import adafruit_bno055
-import time
+from simple_pid import PID
 
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055(i2c)
@@ -17,10 +18,23 @@ def recenter(center, value):
         return difference
 
 
+def gravity_correction(angle, value):
+    gravity_component = 9.806 * math.sin(angle)
+    correction = value - gravity_component
+    return correction
+
+
+def print_corrected_acc():
+    pid_input_x = gravity_correction(sensor.euler[2], sensor.acceleration[1])
+    pid_input_y = gravity_correction(sensor.euler[1], sensor.acceleration[0])
+    return pid_input_x, pid_input_y
+
+
 class IMU:
 
-    def __init__(self, kp_x=0, ki_x=0, kd_x=0, kp_y=0, ki_y=0, kd_y=0, kp_z=0, ki_z=0, kd_z=0,
-                 setpoint_x=0, setpoint_y=0, setpoint_z=0):
+    def __init__(self, kp_x=0, ki_x=0, kd_x=0, kp_y=0, ki_y=0, kd_y=0, kp_z=0, ki_z=0, kd_z=0, setpoint_x=0,
+                 setpoint_y=0, setpoint_z=0, kp_acc_x=0, ki_acc_x=0, kd_acc_x=0, kp_acc_y=0, ki_acc_y=0,
+                 kd_acc_y=0, setpoint_acc_x=0, setpoint_acc_y=0):
 
         self.pid_x = PID(kp_x, ki_x, kd_x, setpoint_x, output_limits=(-60, 60))
         self.pid_y = PID(kp_y, ki_y, kd_y, setpoint_y, output_limits=(-60, 60))
@@ -35,6 +49,16 @@ class IMU:
         self.kp_z = kp_z
         self.ki_z = ki_z
         self.kd_z = kd_z
+
+        self.pid_acc_x = PID(kp_acc_x, ki_acc_x, kd_acc_x, setpoint_acc_x)
+        self.pid_acc_y = PID(kp_acc_y, ki_acc_y, kd_acc_y, setpoint_acc_y)
+
+        self.kp_acc_x = kp_acc_x
+        self.ki_acc_x = ki_acc_x
+        self.kd_acc_x = kd_acc_x
+        self.kp_acc_y = kp_acc_y
+        self.ki_acc_y = ki_acc_y
+        self.kd_acc_y = kd_acc_y
 
         self.center_x = 0
         self.center_y = 0
@@ -60,3 +84,9 @@ class IMU:
 
     def set_z(self, value):
         self.center_z = value
+
+    def get_acc_pid(self):
+        pid_input_x = gravity_correction(sensor.euler[2], sensor.acceleration[1])
+        pid_input_y = gravity_correction(sensor.euler[1], sensor.acceleration[0])
+        pid_tuple = (self.pid_acc_x(pid_input_x), self.pid_acc_y(pid_input_y))
+        return pid_tuple

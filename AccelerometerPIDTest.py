@@ -12,8 +12,6 @@ time.sleep(0.1)
 
 try:
 
-    # ctr.imu.set_z(180)
-
     while True:
         ctr.set_imu_powers()
         ctr.set_pressure_powers()

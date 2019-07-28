@@ -1,5 +1,6 @@
-import ms5837
 import time
+
+import ms5837
 
 sensor = ms5837.MS5837_30BA()  # Default I2C bus is 1 (Raspberry Pi 3)
 

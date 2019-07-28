@@ -1,5 +1,6 @@
-import Control
 import time
+
+import Control
 
 ctr = Control
 

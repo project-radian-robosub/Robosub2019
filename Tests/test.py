@@ -1,5 +1,4 @@
-import MotorMoveTest
-import time
+import Tests.MotorMoveTest
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
@@ -79,12 +78,12 @@ def stop():
 
 try:
 
-    m2_corou = MotorMoveTest.motor_coroutine(0)
-    m3_corou = MotorMoveTest.motor_coroutine(1)
-    m4_corou = MotorMoveTest.motor_coroutine(2)
-    m5_corou = MotorMoveTest.motor_coroutine(3)
-    m6_corou = MotorMoveTest.motor_coroutine(4)
-    m7_corou = MotorMoveTest.motor_coroutine(5)
+    m2_corou = Tests.MotorMoveTest.motor_coroutine(0)
+    m3_corou = Tests.MotorMoveTest.motor_coroutine(1)
+    m4_corou = Tests.MotorMoveTest.motor_coroutine(2)
+    m5_corou = Tests.MotorMoveTest.motor_coroutine(3)
+    m6_corou = Tests.MotorMoveTest.motor_coroutine(4)
+    m7_corou = Tests.MotorMoveTest.motor_coroutine(5)
 
     print(all_motors_stop)
 

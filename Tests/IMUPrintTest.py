@@ -1,5 +1,6 @@
-from simple_pid import PID
 import time
+
+from simple_pid import PID
 
 
 def recenter(center, value):

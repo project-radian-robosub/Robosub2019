@@ -1,8 +1,10 @@
-import MotorMovement
-import time
-import cv2
 import os
+import time
+
+import cv2
+
 import Control
+import MotorMovement
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 max_pwr = 60
@@ -142,7 +144,7 @@ try:
         print(ctr.pressure.get_val())
         ctr.set_imu_powers()
         #ctr.set_pressure_powers
-        ctr.set_move_powers(targets)
+        ctr.set_move_powers(targets[0], targets[1], targets[2], targets[3], targets[4], targets[5])
         ctr.set_motor_powers()
 
 finally:

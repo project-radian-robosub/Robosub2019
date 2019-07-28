@@ -1,6 +1,6 @@
+import MotorMovement
 from IMU import IMU
 from PressureSensor import Pressure
-import MotorMovement
 
 imu = IMU(kp_x=0, ki_x=0, kd_x=0, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=.00, kd_z=.7)
 
@@ -22,6 +22,15 @@ def write_all(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
 
 def stop_all():
     MotorMovement.targets = [0, 0, 0, 0, 0, 0]
+
+
+def set_acc_powers():
+    x = int(imu.get_acc_pid()[0])
+    y = int(imu.get_acc_pid()[1])
+    acc_powers[0] = y
+    acc_powers[1] = x
+    acc_powers[4] = x
+    acc_powers[5] = y
 
 
 def set_imu_powers():

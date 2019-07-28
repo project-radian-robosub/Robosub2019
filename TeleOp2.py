@@ -1,114 +1,153 @@
-import Control
-import sys, termios, tty
+import MotorMovement
 import time
+import cv2
+import os
+import Control
+
+targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
+max_pwr = 60
 
 
-def getch():
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    try:
-        tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(1)
+def remap(x, b1, b2, v1, v2):
+    prop = (x - b1) / (b2 - b1)
+    new_prop = prop * (v2 - v1)
+    new = v1 + new_prop
+    return new
 
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return ch
 
+def count_files(path):
+    path, dirs, files = next(os.walk(path))
+    return len(files)
+
+
+path = '/home/projectradian/TeleOpData/TeleOpImages'
+count = count_files(path) + 1
+
+camera = cv2.VideoCapture(1)
+if camera.read() == (False, None):
+    camera = cv2.VideoCapture(0)
 
 ctr = Control
 
-ctr.MotorMovement.wait_for_arduino()
+MotorMovement.wait_for_arduino()
 
 ctr.stop_all()
 
-time.sleep(0.1)
-
-x = 0
-y = 0
-depth = 990
-x_rot = 0
-y_rot = 0
-z_rot = 0
+time.sleep(.1)
 
 try:
     while True:
-        char = getch()
+        return_value, image = camera.read()
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        cv2.imshow('image', image)
 
-        if char == "z":
+        # Take a screenshot if 'g' is pressed
+        if cv2.waitKey(1) & 0xFF == ord('g'):
+            status = cv2.imwrite(os.path.join(path, '%d.jpg' % count), image)
+            count += 1
+            print(status)
+
+        if cv2.waitKey(1) & 0xFF == ord('z'):
             break
 
-        if char == "w":
-            y += 1
-            time.sleep(.001)
+        if cv2.waitKey(5) & 0xFF == ord('w'):
+            if targets[0] < max_pwr:
+                targets[0] += 1
+            if targets[5] < max_pwr:
+                targets[5] += 1
+            time.sleep(.01)
 
-        if char == "s":
-            y -= 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            if targets[0] < max_pwr:
+                targets[0] -= 1
+            if targets[5] < max_pwr:
+                targets[5] -= 1
+            time.sleep(.01)
 
-        if char == "a":
-            x -= 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('a'):
+            if targets[1] < max_pwr:
+                targets[1] -= 1
+            if targets[4] < max_pwr:
+                targets[4] -= 1
+            time.sleep(.01)
 
-        if char == "d":
-            x += 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('d'):
+            if targets[1] < max_pwr:
+                targets[1] += 1
+            if targets[4] < max_pwr:
+                targets[4] += 1
+            time.sleep(.01)
 
-        if char == "q":
-            depth -= 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            if targets[2] < max_pwr:
+                targets[2] -= 1
+            if targets[3] < max_pwr:
+                targets[3] -= 1
+            time.sleep(.01)
 
-        if char == "e":
-            depth += 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('e'):
+            if targets[2] < max_pwr:
+                targets[2] += 1
+            if targets[3] < max_pwr:
+                targets[3] += 1
+            time.sleep(.01)
 
-        if char == "i":
-            x_rot += 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('i'):
+            if targets[2] < max_pwr:
+                targets[2] += 1
+            if targets[3] < max_pwr:
+                targets[3] -= 1
+            time.sleep(.01)
 
-        if char == "k":
-            x_rot -= 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('k'):
+            if targets[2] < max_pwr:
+                targets[2] -= 1
+            if targets[3] < max_pwr:
+                targets[3] += 1
+            time.sleep(.01)
 
-        if char == "j":
-            z_rot -= 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('j'):
+            if targets[0] < max_pwr:
+                targets[0] += 1
+            if targets[5] < max_pwr:
+                targets[5] -= 1
+            time.sleep(.01)
 
-        if char == "l":
-            z_rot += 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('l'):
+            if targets[0] < max_pwr:
+                targets[0] -= 1
+            if targets[5] < max_pwr:
+                targets[5] += 1
+            time.sleep(.01)
 
-        if char == "u":
-            y_rot -= 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('u'):
+            if targets[1] < max_pwr:
+                targets[1] -= 1
+            if targets[4] < max_pwr:
+                targets[4] += 1
+            time.sleep(.01)
 
-        if char == "o":
-            y_rot += 1
-            time.sleep(.001)
+        if cv2.waitKey(1) & 0xFF == ord('o'):
+            if targets[1] < max_pwr:
+                targets[1] += 1
+            if targets[4] < max_pwr:
+                targets[4] -= 1
+            time.sleep(.01)
 
-        if char == "r":
-            x = 0
-            y = 0
-            depth = 990
-            x_rot = 0
-            y_rot = 0
-            z_rot = 0
-
-        if char == "f":
+        if cv2.waitKey(1) & 0xFF == ord('f'):
             ctr.stop_all()
+            for i in range(len(targets)):
+                targets[i] = 0
 
-        ctr.imu.set_x(x_rot)
-        ctr.imu.set_y(y_rot)
-        ctr.imu.set_z(z_rot)
-        ctr.pressure.set_tar(depth)
+        print(ctr.pressure.get_val())
         ctr.set_imu_powers()
-        ctr.set_pressure_powers()
-        ctr.set_move_powers(y, x, 0, 0, x, y)
+        #ctr.set_pressure_powers
+        ctr.set_move_powers(targets)
         ctr.set_motor_powers()
 
-except KeyboardInterrupt:
-    ctr.stop_all()
-    print("end")
-
 finally:
+    targets = [0, 0, 0, 0, 0, 0]
     ctr.stop_all()
-    print("end")
+    camera.release()
+    cv2.destroyAllWindows()
+

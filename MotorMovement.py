@@ -5,6 +5,7 @@ ser = Serial("/dev/ttyACM0", 9600)
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]
+current_vals = [0, 0, 0, 0, 0, 0]
 
 reverse = -1
 
@@ -33,46 +34,47 @@ def coroutine(func):
     return start
 
 
-@coroutine
-def motor_coroutine(motor_num):
+def motor_generator():
     try:
         while True:
+            for motor_num in range(6):
+                if current_vals[motor_num] < targets[motor_num]:
 
-            target = (yield)
+                    current_vals[motor_num] += 5
 
-            while targets[motor_num] < target:
+                    mot_str = str(int(remap(current_vals[motor_num], -100, 100, 0, 100)))
 
-                targets[motor_num] += 5
-                mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
+                    while len(mot_str) < 3:
+                        mot_str = "0" + mot_str
 
-                while len(mot_str) < 3:
-                    mot_str = "0" + mot_str
+                    motor_strings[motor_num] = mot_str
+                    write_all_motors = ""
 
-                motor_strings[motor_num] = mot_str
-                write_all_motors = ""
+                    for i in motor_strings:
+                        write_all_motors += i
 
-                for i in motor_strings:
-                    write_all_motors += i
+                    ser.write(write_all_motors.encode())
 
-                ser.write(write_all_motors.encode())
-                time.sleep(.005)
+                if current_vals[motor_num] > targets[motor_num]:
 
-            while targets[motor_num] > target:
+                    current_vals[motor_num] -= 5
 
-                targets[motor_num] -= 5
-                mot_str = str(int(remap(targets[motor_num], -100, 100, 0, 100)))
+                    mot_str = str(int(remap(current_vals[motor_num], -100, 100, 0, 100)))
 
-                while len(mot_str) < 3:
-                    mot_str = "0" + mot_str
+                    while len(mot_str) < 3:
+                        mot_str = "0" + mot_str
 
-                motor_strings[motor_num] = mot_str
-                write_all_motors = ""
+                    motor_strings[motor_num] = mot_str
+                    write_all_motors = ""
 
-                for i in motor_strings:
-                    write_all_motors += i
+                    for i in motor_strings:
+                        write_all_motors += i
 
-                ser.write(write_all_motors.encode())
-                time.sleep(.005)
+                    ser.write(write_all_motors.encode())
+
+            time.sleep(.01)
+
+            yield
 
     except GeneratorExit:
         print("motor co-routine closed")

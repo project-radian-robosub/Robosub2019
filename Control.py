@@ -6,12 +6,7 @@ imu = IMU(kp_x=0, ki_x=0, kd_x=0, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=.00, kd_
 
 pressure = Pressure(2.5, 0, 1.5, setpoint=920)
 
-m2 = MotorMovement.motor_coroutine(0)
-m3 = MotorMovement.motor_coroutine(1)
-m4 = MotorMovement.motor_coroutine(2)
-m5 = MotorMovement.motor_coroutine(3)
-m6 = MotorMovement.motor_coroutine(4)
-m7 = MotorMovement.motor_coroutine(5)
+motors = MotorMovement.motor_generator()
 
 motor_powers = [0, 0, 0, 0, 0, 0]
 
@@ -22,21 +17,11 @@ move_powers = [0, 0, 0, 0, 0, 0]
 
 
 def write_all(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
-    m2.send(m2_val)
-    m3.send(m3_val)
-    m4.send(m4_val)
-    m5.send(m5_val)
-    m6.send(m6_val)
-    m7.send(m7_val)
+    MotorMovement.targets = [m2_val, m3_val, m4_val, m5_val, m6_val, m7_val]
 
 
 def stop_all():
-    m2.send(0)
-    m3.send(0)
-    m4.send(0)
-    m5.send(0)
-    m6.send(0)
-    m7.send(0)
+    MotorMovement.targets = [0, 0, 0, 0, 0, 0]
 
 
 def set_imu_powers():
@@ -85,9 +70,8 @@ def set_motor_powers():
         for i in range(len(motor_powers)):
             motor_powers[i] = MotorMovement.remap(motor_powers[i], -abs(max_pow), abs(max_pow), -100, 100)
 
-    m2.send(motor_powers[0])
-    m3.send(motor_powers[1])
-    m4.send(motor_powers[2])
-    m5.send(motor_powers[3] * MotorMovement.reverse)
-    m6.send(motor_powers[4])
-    m7.send(motor_powers[5])
+    motor_powers[3] = motor_powers[3] * MotorMovement.reverse
+
+    MotorMovement.targets = motor_powers
+
+    motors.__next__()

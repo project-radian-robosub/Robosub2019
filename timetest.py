@@ -1,7 +1,7 @@
 import time
 
-import Control
+import IMU
 
 while True:
-    print(Control.imu.sensor.magnet)
+    print(IMU.sensor.magnet)
     time.sleep(0.1)

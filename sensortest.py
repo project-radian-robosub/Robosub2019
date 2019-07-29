@@ -8,5 +8,5 @@ p = Pressure()
 
 while True:
 
-    print(IMU.sensor.euler, IMU.sensor.magnetic)
+    print(IMU.sensor.temperature)
     time.sleep(0.1)

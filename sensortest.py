@@ -1,9 +1,9 @@
 import time
 
 import IMU
-
-# IMU.sensor.displayCalStatus()
+import PressureSensor
 
 while True:
-    print(IMU.sensor.acceleration, IMU.print_corrected_acc())
+    PressureSensor.p_sensor.read()
+    print(PressureSensor.p_sensor.pressure(), IMU.sensor.acceleration, IMU.print_corrected_acc())
     time.sleep(0.1)

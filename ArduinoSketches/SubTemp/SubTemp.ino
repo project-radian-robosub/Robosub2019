@@ -32,6 +32,6 @@ void loop() {
   Serial.print(tempF);
   Serial.println(" F");
 
-  delay(1000);
+  delay(500);
 
 }

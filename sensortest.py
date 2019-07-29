@@ -1,9 +1,12 @@
+
 import time
 
 import IMU
-import PressureSensor
+from PressureSensor import Pressure
+
+p = Pressure()
 
 while True:
-    PressureSensor.p_sensor.read()
-    print(PressureSensor.p_sensor.pressure(), IMU.sensor.acceleration, IMU.print_corrected_acc())
+
+    print(IMU.sensor.euler, IMU.sensor.magnetic)
     time.sleep(0.1)

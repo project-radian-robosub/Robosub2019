@@ -25,6 +25,7 @@ void loop() {
 
   tempF = tempC * 1.8 + 32;
 
+  Serial.print(analogRead(A0));
   Serial.print("  Main Temp:  ");
   Serial.print(tempC);
   Serial.print(" C   ");

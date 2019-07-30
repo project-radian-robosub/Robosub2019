@@ -4,8 +4,8 @@ import Control
 
 ctr = Control
 
-# ctr.MotorMovement.wait_for_arduino()
-time.sleep(75)
+ctr.MotorMovement.wait_for_arduino()
+# time.sleep(75)
 ctr.stop_all()
 
 time.sleep(0.1)

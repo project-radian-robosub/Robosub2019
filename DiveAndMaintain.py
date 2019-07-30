@@ -1,5 +1,6 @@
-import Control
 import time
+
+import Control
 
 ctr = Control
 
@@ -10,8 +11,8 @@ ctr.stop_all()
 time.sleep(0.1)
 
 try:
-    ctr.imu.set_z(50)
-    ctr.pressure.set_tar(1030)
+    # ctr.imu.set_z(50)
+    ctr.pressure.set_tar(1100)
     while True:
         ctr.set_imu_powers()
         # ctr.set_pressure_powers()

@@ -8,19 +8,19 @@ ard_path = '/dev/ttyACM0'
 if os.path.exists('/dev/ttyACM0'):
     ard_port = 0
     ser = Serial('/dev/ttyACM0', 9600)
-    path = '/dev/ttyACM0'
+    ard_path = '/dev/ttyACM0'
     print('/dev/ttyACM0')
 
 elif os.path.exists('/dev/ttyACM1'):
     ard_port = 1
     ser = Serial('/dev/ttyACM1', 9600)
-    path = '/dev/ttyACM1'
+    ard_path = '/dev/ttyACM1'
     print('/dev/ttyACM1')
 
 elif os.path.exists('/dev/ttyACM2'):
     ard_port = 2
     ser = Serial('/dev/ttyACM2', 9600)
-    path = '/dev/ttyACM2'
+    ard_path = '/dev/ttyACM2'
     print('/dev/ttyACM2')
 
 else:
@@ -33,16 +33,40 @@ current_vals = [0, 0, 0, 0, 0, 0]
 reverse = -1
 
 
+def get_ard_path():
+    return ard_path
+
+
+def set_ard_path(path):
+    global ard_path
+    ard_path = path
+
+
 def wait_for_arduino():
     msg = ""
-    # ard_path = '/dev/ttyACM0'
-    # ser = Serial(ard_path, 9600)
     while msg.find("ready") == -1:
-        if os.path.exists(ard_path):
+        global ard_path
+        global ser
+        while os.path.exists(ard_path):
             if ser.inWaiting() > 0:
                 c = ser.read()
                 msg += c.decode('utf-8')
                 print("Arduino" + msg)
+
+        if os.path.exists('/dev/ttyACM0'):
+            ser = Serial('/dev/ttyACM0', 9600)
+            ard_path = '/dev/ttyACM0'
+            print('/dev/ttyACM0')
+
+        elif os.path.exists('/dev/ttyACM1'):
+            ser = Serial('/dev/ttyACM1', 9600)
+            ard_path = '/dev/ttyACM1'
+            print('/dev/ttyACM1')
+
+        elif os.path.exists('/dev/ttyACM2'):
+            ser = Serial('/dev/ttyACM2', 9600)
+            ard_path = '/dev/ttyACM2'
+            print('/dev/ttyACM2')
 
 
 def remap(x, b1, b2, v1, v2):

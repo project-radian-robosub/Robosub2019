@@ -15,14 +15,12 @@ try:
     ctr.pressure.set_tar(1100)
 
     while True:
-        timer1 = time.perf_counter()
         ctr.set_imu_powers()
         # ctr.set_pressure_powers()
         ctr.set_move_powers(0, 0, 0, 0, 0, 0)
         ctr.set_motor_powers()
         print(ctr.imu.get_angles(), ctr.imu.get_angle_pid(), ctr.imu.center_z)
         timer2 = time.perf_counter()
-        print(timer2 - timer1)
 
 
 except KeyboardInterrupt:

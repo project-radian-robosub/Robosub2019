@@ -18,7 +18,7 @@ void setup() {
   
   Serial.begin(9600);
 
-  while (analogRead(photoresistorpin) < 480) {
+  while (analogRead(photoresistorpin) < 323) {
     
   }
 

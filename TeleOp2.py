@@ -25,7 +25,7 @@ def count_files(path):
 path = '/home/projectradian/AndrewGit/Robosub2019/Vision/TrainingData/Images'
 count = count_files(path) + 1
 
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 if camera.read() == (False, None):
     camera = cv2.VideoCapture(0)
 

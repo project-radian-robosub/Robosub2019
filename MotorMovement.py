@@ -46,6 +46,8 @@ def wait_for_arduino():
     while os.path.exists(get_ard_path()):
         print('has not broken yet')
         time.sleep(.1)
+        if not os.path.exists(get_ard_path()):
+            break
 
     if os.path.exists('/dev/ttyACM0'):
         ser = Serial('/dev/ttyACM0', 9600)

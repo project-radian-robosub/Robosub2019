@@ -4,7 +4,7 @@ import Control
 
 ctr = Control
 
-# ctr.MotorMovement.wait_for_arduino()
+ctr.MotorMovement.wait_for_arduino()
 
 ctr.stop_all()
 

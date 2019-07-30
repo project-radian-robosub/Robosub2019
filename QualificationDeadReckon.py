@@ -4,16 +4,16 @@ import Control
 
 ctr = Control
 
-ctr.MotorMovement.wait_for_arduino()
-
+# ctr.MotorMovement.wait_for_arduino()
+time.sleep(75)
 ctr.stop_all()
 
 time.sleep(0.1)
 
 try:
     # ctr.imu.set_z(50)
-    ctr.pressure.set_tar(1100)
-    while ctr.pressure.get_val() < 1080:
+    ctr.pressure.set_tar(1140)
+    while ctr.pressure.get_val() < 1130:
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(0, 0, 0, 0, 0, 0)
@@ -23,7 +23,7 @@ try:
     timer1 = time.perf_counter()
     timer2 = time.perf_counter()
 
-    while timer2 - timer1 < 30:  # forward
+    while timer2 - timer1 < 45:  # forward
         ctr.set_imu_powers()
         ctr.set_pressure_powers()
         ctr.set_move_powers(75, 0, 0, 0, 0, 75)

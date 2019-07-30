@@ -7,6 +7,7 @@ ard_port = -1
 if os.path.exists('/dev/ttyACM0'):
     ard_port = 0
     ser = Serial('/dev/ttyACM0', 9600)
+    print('/dev/ttyACM0')
 
 elif os.path.exists('/dev/ttyACM1'):
     ard_port = 1

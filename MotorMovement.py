@@ -1,8 +1,23 @@
+import os
 import time
 
 from serial import Serial
 
-ser = Serial("/dev/ttyACM0", 9600)
+ard_port = -1
+if os.path.exists('/dev/ttyACM0'):
+    ard_port = 0
+    ser = Serial('/dev/ttyACM0', 9600)
+
+elif os.path.exists('/dev/ttyACM1'):
+    ard_port = 1
+    ser = Serial('/dev/ttyACM1', 9600)
+
+elif os.path.exists('/dev/ttyACM2'):
+    ard_port = 2
+    ser = Serial('/dev/ttyACM2', 9600)
+
+else:
+    print('SERIAL FAILURE')
 
 targets = [0, 0, 0, 0, 0, 0]  # forward-backward, left-right, up-down, roll, pitch, yaw
 motor_strings = ["050", "050", "050", "050", "050", "050"]

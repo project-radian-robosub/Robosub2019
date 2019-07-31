@@ -57,8 +57,8 @@ void loop() {
 
   if(analogRead(photoresistorpin) < 330) {
     Serial.write("1");
-    delay(100)
-    reboot()
+    delay(100);
+    reboot();
   }
   
 }

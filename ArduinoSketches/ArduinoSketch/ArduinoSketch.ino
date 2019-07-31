@@ -19,7 +19,7 @@ void setup() {
   
   Serial.begin(9600);
 
-  while (analogRead(photoresistorpin) < 330) {
+  while (analogRead(photoresistorpin) < 290) {
     
   }
 
@@ -55,7 +55,7 @@ void loop() {
     
   }
 
-  if(analogRead(photoresistorpin) < 330) {
+  if(analogRead(photoresistorpin) < 290) {
     Serial.write("1");
     delay(100);
     reboot();

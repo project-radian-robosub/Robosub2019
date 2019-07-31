@@ -29,6 +29,7 @@ while killed:
             timer2 = time.perf_counter()
             if ctr.MotorMovement.check_reset():
                 killed = True
+                print('KILLED')
 
     except KeyboardInterrupt:
         ctr.stop_all()

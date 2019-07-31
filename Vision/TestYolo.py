@@ -9,8 +9,9 @@ options = {
     'batch': 8,
     'epoch': 100,
     'train': True,
-    'annotation': '/home/stewe951/Documents/Robosub2019/TrainingData/Annotations',
-    'dataset': '/home/stewe951/Documents/Robosub2019/TrainingData/Images'
+    'annotation': '/TrainingData/NewAnnotations',
+    'dataset': '/TrainingData/Images',
+    'gpu': 1.0
 }
 
 tfnet = TFNet(options)

@@ -7,8 +7,8 @@ def count_files(path):
     return len(files)
 
 
-user = input('What is the name of the user: \n')
-path = '/home/%s/Documents/Robosub2019/Vision/TrainingData/Images' % user
+# user = input('What is the name of the user: \n')
+path = '/home/projectradian/AndrewGit/Robosub2019/Vision/TrainingData/Images'
 count = count_files(path) + 1
 
 camera = cv2.VideoCapture(1)
@@ -18,7 +18,7 @@ if camera.read() == (False, None):
 
 while True:
     return_value, image = camera.read()
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     cv2.imshow('image', image)
 
     # Take a screenshot if 's' is pressed

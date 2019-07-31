@@ -40,9 +40,10 @@ class VisionV2:
                         tl = (rect_x ,rect_y)
                         br = (rect_x+rect_w, rect_y+rect_h)
 
-                        boxes.append({'tl': tl})
-                        boxes.append({'br': br})
-                        del boxes[0]
+                        if (rect_h*rect_w) > 75:
+                            boxes.append({'tl': tl})
+                            boxes.append({'br': br})
+                            del boxes[0]
 
                     if show:
                         cv2.rectangle = (img, rect_x, rect_y, (rect_x+rect_w), (rect_y+rect_h), (0, 255, 0), 1)
@@ -51,10 +52,10 @@ class VisionV2:
 
                         # cv2.imshow('Threshold', thresh)
 
-	                # img2 = cv2.drawContours(img2, contours, -1, (0, 255, 0))
-                        # cv2.imshow('Contours', img2)
-                #if show:
-                cv2.imshow('Image', img)
+                    # img2 = cv2.drawContours(img2, contours, -1, (0, 255, 0))
+
+                if show:
+                    cv2.imshow('Image', img)
                 print(boxes)
                 yield boxes
             yield
@@ -81,7 +82,7 @@ if __name__ == '__main__':
         'threshold': [127, 255, 0]
     }
 
-    v = VisionV2(2)
+    v = VisionV2(0)
     print('Starting Loop')
     x = v.vision_generator(orange_options, True)
 

@@ -3,7 +3,6 @@ import time
 
 from serial import Serial
 
-ard_port = -1
 ard_path = '/dev/ttyACM0'
 if os.path.exists('/dev/ttyACM0'):
     ser = Serial('/dev/ttyACM0', 9600)
@@ -40,24 +39,6 @@ def set_ard_path(path):
 
 
 def wait_for_arduino():
-    global ard_path
-    global ser
-
-    if os.path.exists('/dev/ttyACM0'):
-        ser = Serial('/dev/ttyACM0', 9600)
-        ard_path = '/dev/ttyACM0'
-        print('/dev/ttyACM0')
-
-    elif os.path.exists('/dev/ttyACM1'):
-        ser = Serial('/dev/ttyACM1', 9600)
-        ard_path = '/dev/ttyACM1'
-        print('/dev/ttyACM1')
-
-    elif os.path.exists('/dev/ttyACM2'):
-        ser = Serial('/dev/ttyACM2', 9600)
-        ard_path = '/dev/ttyACM2'
-        print('/dev/ttyACM2')
-
     msg = ""
     while msg.find("ready") == -1:
         if ser.inWaiting() > 0:

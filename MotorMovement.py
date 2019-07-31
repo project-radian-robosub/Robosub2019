@@ -39,15 +39,6 @@ current_vals = [0, 0, 0, 0, 0, 0]
 reverse = -1
 
 
-def get_ard_path():
-    return ard_path
-
-
-def set_ard_path(path):
-    global ard_path
-    ard_path = path
-
-
 def wait_for_arduino():
     msg = ""
     while msg.find("ready") == -1:
@@ -75,6 +66,7 @@ def check_reset():
         num = 0
     if num is 1:
         val = True
+    ser.reset_input_buffer()
     return val
 
 

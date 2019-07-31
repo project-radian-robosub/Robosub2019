@@ -1,8 +1,12 @@
 import time
 
+from Vision import VisionV2
+
 import Control
 
 ctr = Control
+
+v1 = VisionV2.vision_generator(0, True)
 
 killed = True
 
@@ -29,15 +33,11 @@ while killed:
                 killed = True
                 print('KILLED')
 
-        timer1 = time.perf_counter()
-        timer2 = time.perf_counter()
-
-        while not killed and timer2 - timer1 < 45:  # forward
+        while not killed and len(v1.__next__()) == 0:  # forward
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(75, 0, 0, 0, 0, 75)
             ctr.set_motor_powers()
-            timer2 = time.perf_counter()
             print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
             if ctr.MotorMovement.check_reset():
                 killed = True

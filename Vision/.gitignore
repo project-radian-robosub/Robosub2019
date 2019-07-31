@@ -1,3 +1,9 @@
+# darkflow
+darkflow/
+
+
+# cfg
+cfg/
 
 # Python bytecode
 *.pyc

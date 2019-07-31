@@ -12,21 +12,23 @@ class VisionV2:
 
     def vision_generator(self, options, show=False):
         option = options
-        boxes = {}
+        boxes = []
 
-        while self.get_cap().isOpened():
-            success, img = self.get_cap()
+        print(option)
+        while True:
+            success, img = self.get_cap().read()
 
             if success:
+                print('success')
                 img = cv2.GaussianBlur(img, (5, 5), 10)
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
                 low_hsv = option['mask_low']
                 high_hsv = option['mask_high']
 
                 mask = (img, low_hsv, high_hsv)
-                mask = cv2.blur(mask, (3, 3))
-
-                ret, thresh = cv2.threshold(mask, option['threshold'])
+                # mask = cv2.GaussianBlur(mask, (3, 3), 5)
+                t = option['threshold']
+                ret, thresh = cv2.threshold(mask, t[0], t[1], t[2])
 
                 img2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -37,7 +39,8 @@ class VisionV2:
                         tl = tuple(rect_x, rect_y)
                         br = tuple(rect_x+rect_w, rect_y+rect_h)
 
-                        boxes[i].append({tl, br})
+                        boxes[i].append({'tl', tl})
+                        boxes[i].append({'br', br})
 
                 if show:
                     cv2.rectangle = (img, rect_x, rect_y, (rect_x+rect_w), (rect_y+rect_h), (0, 255, 0), 1)
@@ -72,13 +75,15 @@ if __name__ == '__main__':
     orange_options = {
         'mask_low': [0, 85, 150],
         'mask_high': [15, 250, 255],
-        'threshold': tuple('0, 0, 0')
+        'threshold': [127, 255, 0]
     }
 
     v = VisionV2(0)
+    print('Starting Loop')
+    x = v.vision_generator(orange_options, True)
 
     while True:
-        v.vision_generator(orange_options, True)
+        x.__next__()
 
         v.get_cap().release()
         cv2.destroyAllWindows()

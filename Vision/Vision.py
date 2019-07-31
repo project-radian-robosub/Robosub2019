@@ -60,6 +60,6 @@ class Vision:
 
 if __name__ == '__main__':
     v = Vision(0)
-    time.sleep(40)
     while True:
         v.vision_generator(True)
+    cv2.destroyAllWindows()

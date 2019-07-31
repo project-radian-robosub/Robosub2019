@@ -15,7 +15,7 @@ while killed:
     ctr.stop_all()
 
     try:
-        ctr.imu.set_z(325)
+        ctr.imu.set_z(330)
         ctr.pressure.set_tar(1100)
 
         while not killed and ctr.pressure.get_val() < 1080:
@@ -36,20 +36,6 @@ while killed:
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(75, 0, 0, 0, 0, 75)
-            ctr.set_motor_powers()
-            timer2 = time.perf_counter()
-            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
-            if ctr.MotorMovement.check_reset():
-                killed = True
-                print('KILLED')
-
-        timer1 = time.perf_counter()
-        timer2 = time.perf_counter()
-
-        while timer2 - timer1 < 4 and not killed:  # stop
-            ctr.set_imu_powers()
-            ctr.set_pressure_powers()
-            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
             ctr.set_motor_powers()
             timer2 = time.perf_counter()
             print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)

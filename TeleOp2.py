@@ -12,6 +12,7 @@ pwr = 20
 
 killed = False
 
+
 def remap(x, b1, b2, v1, v2):
     prop = (x - b1) / (b2 - b1)
     new_prop = prop * (v2 - v1)

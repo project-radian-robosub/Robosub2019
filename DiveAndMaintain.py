@@ -14,12 +14,9 @@ while killed:
 
     ctr.stop_all()
 
-    time.sleep(0.1)
-
     try:
-        ctr.imu.set_z(325)
-        ctr.pressure.set_tar(1070)
 
+        ctr.pressure.set_tar(1070)
         while not killed:
             ctr.set_imu_powers()
             ctr.set_pressure_powers()

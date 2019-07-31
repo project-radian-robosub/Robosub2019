@@ -42,7 +42,7 @@ reverse = -1
 def wait_for_arduino():
     msg = ""
     while msg.find("ready") == -1:
-        if IMU.sensor.calibration_status[3] > 1:
+        if IMU.sensor.calibration_status[3] > 2:
             print(IMU.sensor.calibration_status[3])
             GPIO.output(LED_pin, GPIO.HIGH)
         else:

@@ -9,7 +9,7 @@ import IMU
 imu = IMU
 
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(21, GPIO.OUT)
+GPIO.setup(40, GPIO.OUT, initial=GPIO.LOW)
 
 ard_path = '/dev/ttyACM0'
 if os.path.exists('/dev/ttyACM0'):
@@ -51,9 +51,9 @@ def wait_for_arduino():
     while msg.find("ready") == -1:
         if IMU.sensor.calibration_status()[3] > 1:
             print(IMU.sensor.calibration_status()[3])
-            GPIO.output(21, GPIO.HIGH)
+            GPIO.output(40, GPIO.HIGH)
         else:
-            GPIO.output(21, GPIO.LOW)
+            GPIO.output(40, GPIO.LOW)
         if ser.inWaiting() > 0:
             c = ser.read()
             msg += c.decode('utf-8')

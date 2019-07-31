@@ -8,5 +8,5 @@ i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055(i2c)
 
 while True:
-    print(sensor.displayCalStatus())
+    print(sensor.calibration_status)
     time.sleep(.1)

@@ -8,8 +8,10 @@ import IMU
 
 imu = IMU
 
+LED_pin = 40
+
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(40, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(LED_pin, GPIO.OUT, initial=GPIO.LOW)
 
 ard_path = '/dev/ttyACM0'
 if os.path.exists('/dev/ttyACM0'):
@@ -51,13 +53,17 @@ def wait_for_arduino():
     while msg.find("ready") == -1:
         if IMU.sensor.calibration_status()[3] > 1:
             print(IMU.sensor.calibration_status()[3])
-            GPIO.output(40, GPIO.HIGH)
+            GPIO.output(LED_pin, GPIO.HIGH)
         else:
-            GPIO.output(40, GPIO.LOW)
+            GPIO.output(LED_pin, GPIO.LOW)
         if ser.inWaiting() > 0:
             c = ser.read()
             msg += c.decode('utf-8')
     print("Arduino" + msg)
+
+
+def cleanup_gpio():
+    GPIO.cleanup(LED_pin)
 
 
 def remap(x, b1, b2, v1, v2):

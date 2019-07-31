@@ -24,9 +24,11 @@ try:
 
 
 except KeyboardInterrupt:
+    Control.MotorMovement.cleanup_gpio()
     ctr.stop_all()
     print("end")
 
 finally:
+    Control.MotorMovement.cleanup_gpio()
     ctr.stop_all()
     print("end")

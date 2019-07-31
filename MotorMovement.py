@@ -10,6 +10,7 @@ imu = IMU
 
 LED_pin = 40
 
+GPIO.cleanup(LED_pin)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(LED_pin, GPIO.OUT, initial=GPIO.LOW)
 

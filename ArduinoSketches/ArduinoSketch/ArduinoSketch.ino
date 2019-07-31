@@ -16,8 +16,9 @@ String values = "";
 int resetPin = 22;
 
 void setup() {
-  pinMode(resetPin, OUTPUT);
   digitalWrite(resetPin, HIGH);
+  delay(200);
+  pinMode(resetPin, OUTPUT);
   Serial.begin(9600);
 
   while (analogRead(photoresistorpin) < 290) {
@@ -57,6 +58,8 @@ void loop() {
   }
 
   if(analogRead(photoresistorpin) < 290) {
+    Serial.write("1");
+    delay(100);
     digitalWrite(resetPin, LOW);
     delay(100);
   }

@@ -17,9 +17,11 @@ class VisionV2:
 
         print(option)
         while True:
-            success, img = self.get_cap().read()
+            # success, img = self.get_cap().read()
             # print('justin')
-            if success:
+            img = cv2.imread('/TrainingData/Images/867', cv2.IMREAD_COLOR)
+
+            if True:
                 print('hi')
                 img = cv2.GaussianBlur(img, (5, 5), 10)
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -54,7 +56,7 @@ class VisionV2:
 	                # img2 = cv2.drawContours(img2, contours, -1, (0, 255, 0))
                         # cv2.imshow('Contours', img2)
                 #if show:
-                cv2.imshow('Image', img)
+                cv2.imshow('Image', img2)
                 print(boxes)
                 yield boxes
             yield
@@ -81,12 +83,12 @@ if __name__ == '__main__':
         'threshold': [127, 255, 0]
     }
 
-    v = VisionV2(2)
+    v = VisionV2(1)
     print('Starting Loop')
     x = v.vision_generator(orange_options, True)
 
     while True:
-        x.__next__()
+        x.next()
         # print('running')
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

@@ -25,6 +25,14 @@ def write_all(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
 
 def stop_all():
     MotorMovement.targets = [0, 0, 0, 0, 0, 0]
+    max_val = 0
+    index = 0
+    for i in range(len(MotorMovement.current_vals)):
+        if abs(MotorMovement.current_vals[i]) > max_val:
+            max_val = abs(MotorMovement.current_vals[i])
+            index = i
+    while abs(MotorMovement.current_vals[index]) > 0:
+        motors.__next__()
 
 
 def set_acc_powers():

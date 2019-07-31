@@ -1,7 +1,15 @@
 import os
 import time
 
+import Jetson.GPIO as GPIO
 from serial import Serial
+
+import IMU
+
+imu = IMU
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(21, GPIO.OUT)
 
 ard_path = '/dev/ttyACM0'
 if os.path.exists('/dev/ttyACM0'):
@@ -41,6 +49,8 @@ def set_ard_path(path):
 def wait_for_arduino():
     msg = ""
     while msg.find("ready") == -1:
+        if IMU.sensor.calibration_status()[] > 1:
+
         if ser.inWaiting() > 0:
             c = ser.read()
             msg += c.decode('utf-8')

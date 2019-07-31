@@ -49,8 +49,11 @@ def set_ard_path(path):
 def wait_for_arduino():
     msg = ""
     while msg.find("ready") == -1:
-        if IMU.sensor.calibration_status()[] > 1:
-
+        if IMU.sensor.calibration_status()[3] > 1:
+            print(IMU.sensor.calibration_status()[3])
+            GPIO.output(21, GPIO.HIGH)
+        else:
+            GPIO.output(21, GPIO.LOW)
         if ser.inWaiting() > 0:
             c = ser.read()
             msg += c.decode('utf-8')

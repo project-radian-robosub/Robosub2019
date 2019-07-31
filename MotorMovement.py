@@ -66,6 +66,18 @@ def cleanup_gpio():
     GPIO.cleanup(LED_pin)
 
 
+def check_reset():
+    val = False
+    if ser.inWaiting() > 0:
+        c = ser.read()
+        num = int(str(c.decode('utf-8')))
+    else:
+        num = 0
+    if num is 1:
+        val = True
+    return val
+
+
 def remap(x, b1, b2, v1, v2):
     prop = (x - b1) / (b2 - b1)
     new_prop = prop * (v2 - v1)

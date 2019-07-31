@@ -16,8 +16,8 @@ while killed:
     time.sleep(0.1)
 
     try:
-        ctr.pressure.set_tar(1140)
-        while ctr.pressure.get_val() < 1130 and not killed:
+        ctr.pressure.set_tar(1100)
+        while ctr.pressure.get_val() < 1080 and not killed:
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(0, 0, 0, 0, 0, 0)

@@ -13,7 +13,7 @@ Servo m7;
 char c;
 String values = "";
 
-int resetPin = 24;
+int resetPin = 22;
 
 void setup() {
   pinMode(resetPin, OUTPUT);

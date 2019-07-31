@@ -51,7 +51,7 @@ def set_ard_path(path):
 def wait_for_arduino():
     msg = ""
     while msg.find("ready") == -1:
-        if IMU.sensor.calibration_status()[3] > 1:
+        if IMU.sensor.calibration_status[3] > 1:
             print(IMU.sensor.calibration_status()[3])
             GPIO.output(LED_pin, GPIO.HIGH)
         else:

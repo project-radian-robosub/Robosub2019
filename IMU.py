@@ -30,6 +30,13 @@ def print_corrected_acc():
     return pid_input_x, pid_input_y
 
 
+def check_calibration():
+    if sensor.calibration_status:
+        return True
+    else:
+        return False
+
+
 class IMU:
 
     def __init__(self, kp_x=0, ki_x=0, kd_x=0, kp_y=0, ki_y=0, kd_y=0, kp_z=0, ki_z=0, kd_z=0, setpoint_x=0,

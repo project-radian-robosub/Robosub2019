@@ -87,3 +87,6 @@ def set_motor_powers():
     MotorMovement.targets = motor_powers
 
     motors.__next__()
+
+    if not IMU.check_calibration():
+        MotorMovement.GPIO.output(40, MotorMovement.GPIO.LOW)

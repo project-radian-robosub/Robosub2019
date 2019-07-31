@@ -1,5 +1,4 @@
 #include<Servo.h>
-#include<avr/wdt.h>
 
 int photoresistorpin = A0;
 int photoresistorvalue = 0;
@@ -14,9 +13,11 @@ Servo m7;
 char c;
 String values = "";
 
+int resetPin = 24;
 
 void setup() {
-  
+  pinMode(resetPin, OUTPUT);
+  digitalWrite(resetPin, HIGH);
   Serial.begin(9600);
 
   while (analogRead(photoresistorpin) < 290) {
@@ -56,9 +57,8 @@ void loop() {
   }
 
   if(analogRead(photoresistorpin) < 290) {
-    Serial.write("1");
+    digitalWrite(resetPin, LOW);
     delay(100);
-    reboot();
   }
   
 }
@@ -91,10 +91,4 @@ void updateMotors(String values) { //length must be 18
   m6.writeMicroseconds(map(values.substring(12,15).toInt(), 0, 100, 1100, 1900));
   m7.writeMicroseconds(map(values.substring(15).toInt(), 0, 100, 1100, 1900));
   
-}
-
-void reboot() {
-  wdt_disable();
-  wdt_enable(WDTO_15MS);
-  while (1) {}
 }

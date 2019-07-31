@@ -1,4 +1,5 @@
 #include<Servo.h>
+#include<avr/wdt.h>
 
 int photoresistorpin = A0;
 int photoresistorvalue = 0;
@@ -53,6 +54,12 @@ void loop() {
     }
     
   }
+
+  if(analogRead(photoresistorpin) < 330) {
+    Serial.write("1");
+    delay(100)
+    reboot()
+  }
   
 }
 
@@ -84,4 +91,10 @@ void updateMotors(String values) { //length must be 18
   m6.writeMicroseconds(map(values.substring(12,15).toInt(), 0, 100, 1100, 1900));
   m7.writeMicroseconds(map(values.substring(15).toInt(), 0, 100, 1100, 1900));
   
+}
+
+void reboot() {
+  wdt_disable();
+  wdt_enable(WDTO_15MS);
+  while (1) {}
 }

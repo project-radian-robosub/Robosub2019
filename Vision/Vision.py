@@ -8,7 +8,7 @@ class Vision:
     def __init__(self, cam_num):
         self.options = {
             'model': 'cfg/yolov2-tiny-custom.cfg',
-            'load': '-500',
+            'load': -500,
             'threshold': 0.50,
             'gpu': 0.0
         }
@@ -21,7 +21,7 @@ class Vision:
         self.tfnet = TFNet(self.options)
         self.tfnet.load_from_ckpt()
         self.boxes_dict = {}
-        capture = cv2.VideoCapture(cam_num)
+        self.capture = cv2.VideoCapture(cam_num)
         self.colors = [tuple('0, 225, 0'), tuple('255, 0, 0')]
         self.ret, self.frame = self.capture.read()
 

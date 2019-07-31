@@ -3,15 +3,19 @@ import time
 import Control
 
 ctr = Control
+timer1 = time.perf_counter()
+timer2 = time.perf_counter()
+# ctr.MotorMovement.wait_for_arduino()
+while timer2 - timer1 < 60:
+    print(timer2 - timer1)
+    time.sleep(.1)
+    timer2 = time.perf_counter()
 
-ctr.MotorMovement.wait_for_arduino()
-# time.sleep(75)
 ctr.stop_all()
 
 time.sleep(0.1)
 
 try:
-    # ctr.imu.set_z(50)
     ctr.pressure.set_tar(1140)
     while ctr.pressure.get_val() < 1130:
         ctr.set_imu_powers()

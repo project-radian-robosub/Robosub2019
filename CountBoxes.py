@@ -1,10 +1,18 @@
 import time
+import cv2
 
 from Vision.BackgroundSubtractor import VisionV3
 
-v1 = VisionV3(0)
+v1 = VisionV3(1)
 gen = v1.vision_generator(True)
 
 while True:
-    print(len(gen.__next__()))
-    time.sleep(.1)
+    print(gen.__next__())
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+v1.get_cap().release()
+cv2.destroyAllWindows()
+cv2.destroyAllWindows()
+cv2.destroyAllWindows()

@@ -105,9 +105,9 @@ def set_motor_powers():
 
 def calculate_mag_error():
     global n
-    n += math.atan(IMU.sensor.magnetic / IMU.sensor.magnetic)
+    n += math.atan(IMU.sensor.magnetic[1] / IMU.sensor.magnetic[0])
     mag_avg = n / 2
-    error = imu.center_z - mag_avg
+    error = (imu.center_z - 90) - mag_avg
     new_tar = imu.center_z + error
     return error
     '''

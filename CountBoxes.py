@@ -1,8 +1,8 @@
 import time
 
-from Vision import VisionV2
+from Vision.BackgroundSubtractor import VisionV3
 
-v1 = VisionV2.vision_generator(0, True)
+v1 = VisionV3.vision_generator(0, True)
 
 while True:
     print(len(v1.__next__()))

@@ -15,8 +15,9 @@ class VisionV3:
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
+        # boxes = [None]
+
     def vision_generator(self, show=False):
-        boxes = [None]
 
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         fgbg = cv2.createBackgroundSubtractorMOG2()

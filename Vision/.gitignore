@@ -1,6 +1,7 @@
 
 # Python bytecode
 *.pyc
+.idea/
 
 # Weight files
 bin/

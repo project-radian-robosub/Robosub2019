@@ -76,7 +76,6 @@ if __name__ == '__main__':
     }
 
     v = VisionV2(0)
-
     while True:
         v.vision_generator(orange_options, True)
 

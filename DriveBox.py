@@ -33,9 +33,17 @@ while killed:
 
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
-
-        while gen.__next__() is None and not killed:  # forward
-            print(gen.__next__())
+        gate_flag = False
+        seen = False
+        while gate_flag is False and not killed:  # forward
+            if not gen.__next__() is None and not seen:
+                timer1 = time.perf_counter()
+                timer2 = time.perf_counter()
+                seen = True
+            if gen.__next__() is None and seen:
+                seen = False
+            if timer2 - timer1 > 0.2 and seen is True:
+                gate_flag = True
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(75, 0, 0, 0, 0, 75)
@@ -46,8 +54,18 @@ while killed:
                 killed = True
                 print('KILLED')
 
-        while not gen.__next__() is None and not killed:  # forward
-            print(gen.__next__())
+        timer1 = time.perf_counter()
+        timer2 = time.perf_counter()
+        seen = True
+        while gate_flag is True and not killed:  # forward
+            if gen.__next__() is None and seen:
+                timer1 = time.perf_counter()
+                timer2 = time.perf_counter()
+                seen = False
+            if not gen.__next__() is None and not seen:
+                seen = True
+            if timer2 - timer1 > 0.2 and seen is True:
+                gate_flag = False
             tl, br = gen.__next__()
             x = (tl[0] + br[0]) / 2
             y = (tl[1] + br[1]) / 2

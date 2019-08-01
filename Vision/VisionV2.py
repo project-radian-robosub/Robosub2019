@@ -40,7 +40,7 @@ class VisionV2:
                         tl = (rect_x ,rect_y)
                         br = (rect_x+rect_w, rect_y+rect_h)
 
-                        if (rect_h*rect_w) > 75:
+                        if (rect_h*rect_w) >100:
                             boxes.append({'tl': tl})
                             boxes.append({'br': br})
                             del boxes[0]
@@ -55,7 +55,7 @@ class VisionV2:
                     # img2 = cv2.drawContours(img2, contours, -1, (0, 255, 0))
 
                 if show:
-                    cv2.imshow('Image', img)
+                    cv2.imshow('Image', img2)
                 print(boxes)
                 yield boxes
             yield
@@ -77,8 +77,8 @@ if __name__ == '__main__':
     """
 
     orange_options = {
-        'mask_low': [0, 85, 150],
-        'mask_high': [15, 250, 255],
+        'mask_low': [0, 0, 94],
+        'mask_high': [68, 83, 192],
         'threshold': [127, 255, 0]
     }
 

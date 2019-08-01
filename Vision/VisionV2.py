@@ -83,9 +83,12 @@ if __name__ == '__main__':
     }
 
     v = VisionV2(0)
+<<<<<<< HEAD
+=======
     print('Starting Loop')
     x = v.vision_generator(orange_options, True)
 
+>>>>>>> 9b0d349f2d5c18ced3b560db3298214f08543995
     while True:
         x.__next__()
         # print('running')

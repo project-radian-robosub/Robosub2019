@@ -20,9 +20,9 @@ while killed:
     time.sleep(0.1)
 
     try:
-
-        ctr.pressure.set_tar(1070)
-        while ctr.pressure.get_val() < 1060 and not killed:
+        ctr.imu.set_z(140)
+        ctr.pressure.set_tar(1085)
+        while ctr.pressure.get_val() < 1080 and not killed:
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(0, 0, 0, 0, 0, 0)
@@ -34,10 +34,7 @@ while killed:
 
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
-<<<<<<< HEAD
 
-        while gen.__next__() is None and not killed:  # forward
-=======
         gate_flag = False
         seen = False
         while gate_flag is False and not killed:  # forward
@@ -49,7 +46,6 @@ while killed:
                 seen = False
             if timer2 - timer1 > 0.2 and seen is True:
                 gate_flag = True
->>>>>>> 7d83dc759a9c553738b34a29386dd879dc4f6698
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(75, 0, 0, 0, 0, 75)
@@ -60,14 +56,12 @@ while killed:
                 killed = True
                 print('KILLED')
 
-<<<<<<< HEAD
-        while not gen.__next__() is None and not killed:  # forward
-            gen.__next__()
-=======
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
         seen = True
-        while gate_flag is True and not killed:  # forward
+        timer3 = time.perf_counter()
+        timer4 = time.perf_counter()
+        while gate_flag is True and timer4 - timer3 < 25 and not killed:  # forward
             if gen.__next__() is None and seen:
                 timer1 = time.perf_counter()
                 timer2 = time.perf_counter()
@@ -76,7 +70,7 @@ while killed:
                 seen = True
             if timer2 - timer1 > 0.2 and seen is True:
                 gate_flag = False
->>>>>>> 7d83dc759a9c553738b34a29386dd879dc4f6698
+
             tl, br = gen.__next__()
             x = (tl[0] + br[0]) / 2
             y = (tl[1] + br[1]) / 2
@@ -92,9 +86,10 @@ while killed:
                 y_pow = -100
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
-            ctr.set_move_powers(75, x_pow, -y_pow, -y_pow, x_pow, 75)
+            ctr.set_move_powers(75, x_pow * 1.5, -y_pow, -y_pow, x_pow * 1.5, 75)
             ctr.set_motor_powers()
             timer2 = time.perf_counter()
+            timer4 = time.perf_counter()
             # print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
             if ctr.MotorMovement.check_reset():
                 killed = True

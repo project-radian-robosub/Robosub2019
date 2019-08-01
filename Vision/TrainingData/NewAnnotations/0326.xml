@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Images</folder>
+	<filename>0326.jpg</filename>
+	<path>C:\Users\fanti\Robosub2019\Vision\TrainingData\Images\0326.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>720</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Gate</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>1145</xmin>
+			<ymin>388</ymin>
+			<xmax>1252</xmax>
+			<ymax>720</ymax>
+		</bndbox>
+	</object>
+</annotation>

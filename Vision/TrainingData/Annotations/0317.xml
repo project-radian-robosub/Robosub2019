@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Images</folder>
+	<filename>0317.jpg</filename>
+	<path>C:\Users\fanti\robosub_transdec_dataset\Images\0317.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>720</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Gate</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>338</xmin>
+			<ymin>328</ymin>
+			<xmax>885</xmax>
+			<ymax>675</ymax>
+		</bndbox>
+	</object>
+</annotation>

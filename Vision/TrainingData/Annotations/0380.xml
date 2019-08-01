@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Images</folder>
+	<filename>0380.jpg</filename>
+	<path>C:\Users\fanti\robosub_transdec_dataset\Images\0380.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>492</width>
+		<height>360</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Path</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>207</xmin>
+			<ymin>278</ymin>
+			<xmax>226</xmax>
+			<ymax>316</ymax>
+		</bndbox>
+	</object>
+</annotation>

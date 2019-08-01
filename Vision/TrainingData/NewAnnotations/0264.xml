@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Images</folder>
+	<filename>0264.jpg</filename>
+	<path>C:\Users\fanti\Robosub2019\Vision\TrainingData\Images\0264.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>520</width>
+		<height>390</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Path</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>295</xmin>
+			<ymin>241</ymin>
+			<xmax>305</xmax>
+			<ymax>262</ymax>
+		</bndbox>
+	</object>
+</annotation>

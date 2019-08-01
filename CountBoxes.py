@@ -7,12 +7,7 @@ v1 = VisionV3(1)
 gen = v1.vision_generator(True)
 
 while True:
-<<<<<<< HEAD
-    print(gen.__next__())
-
-=======
     gen.__next__()
->>>>>>> 6bedaf6bc32d4be246d87a95a15a10d77120b71b
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

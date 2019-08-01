@@ -5,6 +5,8 @@ import board
 import busio
 from simple_pid import PID
 
+import Control
+
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055(i2c)
 
@@ -91,6 +93,7 @@ class IMU:
 
     def set_z(self, value):
         self.center_z = value
+        Control.reset_n()
 
     def get_acc_pid(self):
         pid_input_x = sensor.acceleration[1]

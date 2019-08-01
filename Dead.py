@@ -1,11 +1,7 @@
 import time
 
-from Vision.BackgroundSubtractor import VisionV3
-
 import Control
 
-v1 = VisionV3(0)
-gen = v1.vision_generator(True)
 ctr = Control
 killed = True
 
@@ -33,17 +29,8 @@ while killed:
 
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
-        gate_flag = False
-        seen = False
-        while gate_flag is False and not killed:  # forward
-            if not gen.__next__() is None and not seen:
-                timer1 = time.perf_counter()
-                timer2 = time.perf_counter()
-                seen = True
-            if gen.__next__() is None and seen:
-                seen = False
-            if timer2 - timer1 > 0.2 and seen is True:
-                gate_flag = True
+
+        while timer2 - timer1 < 42 and not killed:  # forward
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(75, 0, 0, 0, 0, 75)
@@ -56,32 +43,12 @@ while killed:
 
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
-        seen = True
-        while gate_flag is True and not killed:  # forward
-            if gen.__next__() is None and seen:
-                timer1 = time.perf_counter()
-                timer2 = time.perf_counter()
-                seen = False
-            if not gen.__next__() is None and not seen:
-                seen = True
-            if timer2 - timer1 > 0.2 and seen is True:
-                gate_flag = False
-            tl, br = gen.__next__()
-            x = (tl[0] + br[0]) / 2
-            y = (tl[1] + br[1]) / 2
-            x_pow = 320 - x
-            y_pow = 240 - y
-            if x_pow > 100:
-                x_pow = 100
-            elif x_pow < -100:
-                x_pow = -100
-            if y_pow > 100:
-                y_pow = 100
-            elif y_pow < -100:
-                y_pow = -100
+
+        ctr.imu.set_z(120)
+        while timer2 - timer1 < 6 and not killed:  # spin
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
-            ctr.set_move_powers(75, x_pow, -y_pow, -y_pow, x_pow, 75)
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
             ctr.set_motor_powers()
             timer2 = time.perf_counter()
             print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
@@ -89,9 +56,34 @@ while killed:
                 killed = True
                 print('KILLED')
 
+        ctr.imu.set_z(240)
+        while timer2 - timer1 < 9 and not killed:  # spin
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.imu.set_z(0)
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
 
+        while timer2 - timer1 < 4 and not killed:  # stop
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.set_pressure_powers(1060)
         while timer2 - timer1 < 4 and not killed:  # stop
             ctr.set_imu_powers()
             ctr.set_pressure_powers()

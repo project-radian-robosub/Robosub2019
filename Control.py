@@ -1,3 +1,5 @@
+import math
+
 import IMU
 import MotorMovement
 from PressureSensor import Pressure
@@ -18,6 +20,7 @@ imu_powers = [0, 0, 0, 0, 0, 0]
 pressure_powers = [0, 0, 0, 0, 0, 0]
 move_powers = [0, 0, 0, 0, 0, 0]
 
+n = 0
 
 def write_all(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
     MotorMovement.targets = [m2_val, m3_val, m4_val, m5_val, m6_val, m7_val]
@@ -98,3 +101,27 @@ def set_motor_powers():
 
     if not IMU.check_calibration():
         MotorMovement.GPIO.output(40, MotorMovement.GPIO.LOW)
+
+
+def calculate_mag_error():
+    global n
+    n += math.atan(IMU.sensor.magnetic[1] / IMU.sensor.magnetic[0])
+    mag_avg = n / 2
+    error = (imu.center_z - 90) - mag_avg
+    new_tar = imu.center_z + error
+    return error
+    '''
+    if new_tar < 0:
+        new_tar += 360
+    elif new_tar >= 360:
+        new_tar -= 360
+    return new_tar
+    '''
+
+def get_n():
+    return n
+
+
+def reset_n():
+    global n
+    n = 0

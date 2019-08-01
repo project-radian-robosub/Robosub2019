@@ -91,7 +91,6 @@ class IMU:
 
     def set_z(self, value):
         self.center_z = value
-        Control.reset_n()
 
     def get_acc_pid(self):
         pid_input_x = sensor.acceleration[1]

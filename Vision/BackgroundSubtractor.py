@@ -15,8 +15,9 @@ class VisionV3:
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
+        # boxes = [None]
+
     def vision_generator(self, show=False):
-        boxes = [None]
 
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         fgbg = cv2.createBackgroundSubtractorMOG2()
@@ -29,7 +30,7 @@ class VisionV3:
                 fgmask = fgbg.apply(blur)
                 fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel)
 
-                contours, hierarchy = cv2.findContours(fgmask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                _, contours, hierarchy = cv2.findContours(fgmask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 height, width, _ = img.shape
                 min_x, min_y = width, height
                 max_x = max_y = 0
@@ -98,7 +99,7 @@ if __name__ == '__main__':
         }
     """
 
-    v = VisionV3(0)
+    v = VisionV3(1)
     print('Starting Loop')
     v_gen = v.vision_generator(True)
 

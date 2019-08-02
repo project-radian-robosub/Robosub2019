@@ -6,7 +6,7 @@ ctr = Control
 
 killed = True
 
-target = 93
+target = 316
 
 
 def get_killed():
@@ -14,7 +14,7 @@ def get_killed():
 
 
 def set_killed(val):
-    nonlocal killed
+    global killed
     killed = val
 
 
@@ -43,7 +43,7 @@ while killed:
 
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
-        while ctr.pressure.get_val(1070) and not killed:
+        while ctr.pressure.get_val() < 1070 and not killed:
             drive()
 
         ctr.imu.set_z(ctr.change_heading(target, 120))

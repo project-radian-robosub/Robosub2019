@@ -3,9 +3,9 @@ import time
 
 import IMU
 import MotorMovement
-from PressureSensor import Pressure
+# from PressureSensor import Pressure
 
-p = Pressure()
+# p = Pressure()
 
 while True:
     if MotorMovement.imu.sensor.calibration_status[3] > 2:

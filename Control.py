@@ -2,14 +2,15 @@ import math
 
 import IMU
 import MotorMovement
-from PressureSensor import Pressure
+
+# from PressureSensor import Pressure
 
 imu = IMU.IMU(kp_x=0, ki_x=0, kd_x=0, kp_y=1, ki_y=0, kd_y=.2, kp_z=1, ki_z=.00, kd_z=.7,
               kp_acc_x=0, ki_acc_x=0, kd_acc_x=0, kp_acc_y=0, ki_acc_y=0, kd_acc_y=0)
 
 print(IMU.sensor.euler, IMU.sensor.acceleration)
 
-pressure = Pressure(2.5, 0, 1.5, setpoint=1000)
+# pressure = Pressure(2.5, 0, 1.5, setpoint=1000)
 
 motors = MotorMovement.motor_generator()
 
@@ -17,7 +18,7 @@ motor_powers = [0, 0, 0, 0, 0, 0]
 
 acc_powers = [0, 0, 0, 0, 0, 0]
 imu_powers = [0, 0, 0, 0, 0, 0]
-pressure_powers = [0, 0, 0, 0, 0, 0]
+# pressure_powers = [0, 0, 0, 0, 0, 0]
 move_powers = [0, 0, 0, 0, 0, 0]
 
 n = 0
@@ -58,12 +59,12 @@ def set_imu_powers():
     imu_powers[4] = -x
     imu_powers[5] = -z
 
-
+'''
 def set_pressure_powers():
     pid = int(pressure.get_pid())
     pressure_powers[2] = -pid
     pressure_powers[3] = -pid
-
+'''
 
 def set_move_powers(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
     move_powers[0] = m2_val
@@ -80,7 +81,7 @@ def set_motor_powers():
     for i in range(len(motor_powers)):
         motor_powers[i] += acc_powers[i]
         motor_powers[i] += imu_powers[i]
-        motor_powers[i] += pressure_powers[i]
+        # motor_powers[i] += pressure_powers[i]
         motor_powers[i] += move_powers[i]
 
     max_pow = 0

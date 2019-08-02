@@ -120,6 +120,11 @@ def calculate_mag_error():
     '''
 
 
+def change_heading(original, change):
+    new_heading = (original + change) % 360
+    return new_heading
+
+
 def get_n():
     return n
 

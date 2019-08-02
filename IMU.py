@@ -5,7 +5,7 @@ import board
 import busio
 from simple_pid import PID
 
-i2c = busio.I2C(board.SCL_1, board.SDA_1)
+i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055(i2c)
 
 

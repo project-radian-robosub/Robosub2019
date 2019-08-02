@@ -9,6 +9,9 @@ gen = v1.vision_generator(True)
 ctr = Control
 killed = True
 gate_tar = 0
+p_tar = 1085
+p_thresh = p_tar - 10
+depth_increment = 2
 
 
 def get_killed():
@@ -16,7 +19,7 @@ def get_killed():
 
 
 def set_killed(val):
-    nonlocal killed
+    global killed
     killed = val
 
 
@@ -42,8 +45,8 @@ while killed:
 
     try:
         ctr.imu.set_z(gate_tar)
-        ctr.pressure.set_tar(1100)
-        while ctr.pressure.get_val() < 1080 and not killed:
+        ctr.pressure.set_tar(p_tar)
+        while ctr.pressure.get_val() < p_thresh and not killed:
             drive()
 
         timer1 = time.perf_counter()
@@ -64,7 +67,9 @@ while killed:
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
         seen = True
-        while gate_flag is True and not killed:  # forward
+        timer3 = time.perf_counter()
+        timer4 = time.perf_counter()
+        while gate_flag is True and timer4 - timer3 < 40 and not killed:  # forward
             if gen.__next__() is None and seen:
                 timer1 = time.perf_counter()
                 timer2 = time.perf_counter()
@@ -86,14 +91,8 @@ while killed:
                 y_pow = 100
             elif y_pow < -100:
                 y_pow = -100
-            drive(m2=75, m7=75)
-
-        timer1 = time.perf_counter()
-        timer2 = time.perf_counter()
-
-        while timer2 - timer1 < 7 and not killed:
-            drive(m2=75, m7=75)
-            timer2 = time.perf_counter()
+            drive(m2=75, m3=x_pow * 1.5, m6=x_pow * 1.5, m7=75)
+            timer4 = time.perf_counter()
 
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
@@ -136,9 +135,70 @@ while killed:
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
 
-        while timer2 - timer1 < 7 and not killed:  # stabilize
+        while timer2 - timer1 < 4 and not killed:  # stabilize
             drive()
             timer2 = time.perf_counter()
+
+        timer1 = time.perf_counter()
+        timer2 = time.perf_counter()
+
+        while timer2 - timer1 < 3 and not killed:
+            drive(m2=75, m7=75)
+            timer2 = time.perf_counter()
+
+        p_tar = 1270
+        ctr.pressure.set_tar(p_tar)
+
+        while ctr.pressure.get_val() < p_thresh and not killed:  # dive
+            drive()
+            timer2 = time.perf_counter()
+
+        while gate_flag is False and not killed:  # forward
+            if not gen.__next__() is None and not seen:
+                timer1 = time.perf_counter()
+                timer2 = time.perf_counter()
+                seen = True
+            if gen.__next__() is None and seen:
+                seen = False
+            if timer2 - timer1 > 0.2 and seen is True:
+                gate_flag = True
+            drive(m2=75, m7=75)
+
+        timer1 = time.perf_counter()
+        timer2 = time.perf_counter()
+        seen = True
+        timer3 = time.perf_counter()
+        timer4 = time.perf_counter()
+        while gate_flag is True and timer4 - timer3 < 20 and not killed:  # forward
+            if gen.__next__() is None and seen:
+                timer1 = time.perf_counter()
+                timer2 = time.perf_counter()
+                seen = False
+            if not gen.__next__() is None and not seen:
+                seen = True
+            if timer2 - timer1 > 0.2 and seen is True:
+                gate_flag = False
+            tl, br = gen.__next__()
+            x = (tl[0] + br[0]) / 2
+            y = (tl[1] + br[1]) / 2
+            x_pow = 320 - x
+            y_pow = 240 - y
+            if x_pow > 100:
+                x_pow = 100
+            elif x_pow < -100:
+                x_pow = -100
+            if y_pow > 100:
+                y_pow = 100
+            elif y_pow < -100:
+                y_pow = -100
+            if y_pow > 0:
+                p_tar += depth_increment
+                ctr.pressure.set_tar(p_tar)
+            if y_pow < 0:
+                p_tar -= depth_increment
+                ctr.pressure.set_tar(p_tar)
+            drive(m2=75, m3=x_pow * 1.5, m6=x_pow * 1.5, m7=75)
+            timer4 = time.perf_counter()
 
     except KeyboardInterrupt:
         ctr.stop_all()

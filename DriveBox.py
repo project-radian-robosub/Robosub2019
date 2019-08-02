@@ -83,7 +83,7 @@ while killed:
                 y_pow = -100
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
-            ctr.set_move_powers(75, x_pow, -y_pow, -y_pow, x_pow, 75)
+            ctr.set_move_powers(75, x_pow * 1.5, 0, 0, x_pow * 1.5, 75)
             ctr.set_motor_powers()
             timer2 = time.perf_counter()
             print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)

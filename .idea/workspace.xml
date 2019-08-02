@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04fdf385-1e52-447b-9448-3a7453de2097" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/CountBoxes.py" beforeDir="false" afterPath="$PROJECT_DIR$/CountBoxes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.CountBoxes.py.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,12 +20,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="y" value="-11" />
-    <option name="width" value="1943" />
-    <option name="height" value="1103" />
   </component>
   <component name="ProjectId" id="1OpPuSNdNgprkqbNchG7hYI13OA" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -146,7 +141,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

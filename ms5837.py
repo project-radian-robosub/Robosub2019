@@ -40,14 +40,14 @@ UNITS_Kelvin     = 3
 class MS5837(object):
     
     # Registers
-    _MS5837_ADDR             = 0x76  
+    _MS5837_ADDR             = 0x21
     _MS5837_RESET            = 0x1E
     _MS5837_ADC_READ         = 0x00
     _MS5837_PROM_READ        = 0xA0
     _MS5837_CONVERT_D1_256   = 0x40
     _MS5837_CONVERT_D2_256   = 0x50
     
-    def __init__(self, model=MODEL_30BA, bus=1):
+    def __init__(self, model=MODEL_30BA, bus=0):
         self._model = model
         
         try:

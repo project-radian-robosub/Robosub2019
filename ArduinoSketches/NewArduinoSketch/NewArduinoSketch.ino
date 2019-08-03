@@ -13,16 +13,10 @@ Servo m7;
 char c;
 String values = "";
 
-int resetPin = 22;
-
 void setup() {
-  digitalWrite(resetPin, HIGH);
-  delay(200);
-  pinMode(resetPin, OUTPUT);
-  Serial.begin(9600);
 
   while (analogRead(photoresistorpin) < 290) {
-    
+
   }
 
   m2.attach(2);
@@ -34,17 +28,13 @@ void setup() {
 
   stopAll();
 
-  delay(8500);
-
-  sendReady();
-
 }
 
 
 void loop() {
 
   if(Serial.available() > 0) {
-    
+
     c = Serial.read();
     values += c;
 
@@ -52,25 +42,23 @@ void loop() {
 
       updateMotors(values);
       values = "";
-      
+
     }
-    
+
   }
 
   if(analogRead(photoresistorpin) < 290) {
     Serial.write("1");
     delay(100);
-    digitalWrite(resetPin, LOW);
-    delay(100);
   }
-  
+
 }
 
 
 void sendReady() {
-  
+
   Serial.write("ready");
-  
+
 }
 
 void stopAll() {
@@ -93,5 +81,5 @@ void updateMotors(String values) { //length must be 18
   m5.writeMicroseconds(map(values.substring(9,12).toInt(), 0, 100, 1100, 1900));
   m6.writeMicroseconds(map(values.substring(12,15).toInt(), 0, 100, 1100, 1900));
   m7.writeMicroseconds(map(values.substring(15).toInt(), 0, 100, 1100, 1900));
-  
+
 }

@@ -40,7 +40,7 @@ reverse = -1
 
 
 def wait_for_initialization():
-    ser.write('050050050050050050')
+    ser.write('050050050050050050'.encode())
     time.sleep(8.5)
 
 

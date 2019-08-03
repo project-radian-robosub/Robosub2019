@@ -1,9 +1,9 @@
 # darkflow
 darkflow/
-
+*__pychache__/
 
 # cfg
-cfg/
+Vision/cfg/
 
 # Python bytecode
 *.pyc

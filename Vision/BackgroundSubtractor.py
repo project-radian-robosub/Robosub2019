@@ -51,7 +51,7 @@ class VisionV3:
                             self.br = (x + w, y + h)
 
                         self.check_boxes()
-                        
+
                 if show:
                     cv2.rectangle(img, self.tl, self.br, (255, 0, 0), 2)
                     print(self.box_ori)
@@ -105,14 +105,6 @@ class VisionV3:
 
 
 if __name__ == '__main__':
-    """
-        options {
-            arr[]
-            arr[]
-            tuple(0,0,0)
-        }
-    """
-
     v = VisionV3(0)
     print('Starting Loop')
     v_gen = v.vision_generator(True)

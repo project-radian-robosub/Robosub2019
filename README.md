@@ -14,4 +14,6 @@ pyserial
 
 numpy
 
-opencv
+opencv-python
+
+opencv-python-contrib

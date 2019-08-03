@@ -7,7 +7,7 @@ cfg/
 
 # Python bytecode
 *.pyc
-.idea/
+*.idea/
 
 # Weight files
 bin/

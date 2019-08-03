@@ -179,7 +179,7 @@ while killed:
             if timer2 - timer1 > 0.2 and seen is True:
                 gate_flag = False
             tl, br = gen.__next__()
-            x = (tl[0] + br[0]) / 2
+            x = br[0]
             y = (tl[1] + br[1]) / 2
             x_pow = 320 - x
             y_pow = 240 - y

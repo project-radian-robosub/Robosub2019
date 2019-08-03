@@ -15,10 +15,6 @@ String values = "";
 
 void setup() {
 
-  while (analogRead(photoresistorpin) < 290) {
-
-  }
-
   m2.attach(2);
   m3.attach(3);
   m4.attach(4);

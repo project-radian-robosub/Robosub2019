@@ -9,7 +9,11 @@ killed = True
 
 while killed:
 
-    ctr.MotorMovement.wait_for_arduino()
+    while ctr.MotorMovement.check_reset():
+        print('Kill Switch Off')
+        time.sleep(1)
+
+    ctr.MotorMovement.wait_for_initialization()
 
     killed = False
 

@@ -39,6 +39,11 @@ current_vals = [0, 0, 0, 0, 0, 0]
 reverse = -1
 
 
+def wait_for_initialization():
+    ser.write('050050050050050050')
+    time.sleep(8.5)
+
+
 def wait_for_arduino():
     msg = ""
     while msg.find("ready") == -1:
@@ -50,7 +55,7 @@ def wait_for_arduino():
         if ser.inWaiting() > 0:
             c = ser.read()
             msg += c.decode('utf-8')
-    print("Arduino" + msg)
+    print("Arduino " + msg)
 
 
 def cleanup_gpio():

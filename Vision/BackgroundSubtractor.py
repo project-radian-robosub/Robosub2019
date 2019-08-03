@@ -19,6 +19,9 @@ class VisionV3:
         self.tl = (0, 0)
         self.br = (0, 0)
 
+        self.box_ori = None
+        self.prev_box = None
+
     def vision_generator(self, show=False, non_max_suppression=True):
 
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
@@ -47,17 +50,29 @@ class VisionV3:
                             self.tl = (x, y)
                             self.br = (x + w, y + h)
 
-                        box_ori = (self.tl, self.br)
-
+                        self.check_boxes()
+                        
                 if show:
                     cv2.rectangle(img, self.tl, self.br, (255, 0, 0), 2)
-                    print(box_ori)
+                    print(self.box_ori)
 
                     cv2.imshow('Image', img)
                     cv2.imshow('contour', fgmask)
 
-                yield box_ori
+                yield self.box_ori
             yield
+
+    def check_boxes(self):
+        self.prev_box = self.box_ori
+        self.box_ori = (self.tl, self.br)
+
+        count = 0
+        if self.prev_box == self.box_ori:
+            count += 1
+
+            if count > 15:
+                self.box_ori = None
+                self.prev_box = None
 
     def get_cap(self):
         return self.cap

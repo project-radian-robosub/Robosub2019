@@ -22,6 +22,7 @@ move_powers = [0, 0, 0, 0, 0, 0]
 
 n = 0
 
+
 def write_all(m2_val, m3_val, m4_val, m5_val, m6_val, m7_val):
     MotorMovement.targets = [m2_val, m3_val, m4_val, m5_val, m6_val, m7_val]
 
@@ -117,6 +118,12 @@ def calculate_mag_error():
         new_tar -= 360
     return new_tar
     '''
+
+
+def change_heading(original, change):
+    new_heading = (original + change) % 360
+    return new_heading
+
 
 def get_n():
     return n

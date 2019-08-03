@@ -9,10 +9,6 @@ killed = True
 
 while killed:
 
-    while ctr.MotorMovement.check_reset():
-        print('Kill Switch Off')
-        time.sleep(1)
-
     ctr.MotorMovement.wait_for_initialization()
 
     killed = False

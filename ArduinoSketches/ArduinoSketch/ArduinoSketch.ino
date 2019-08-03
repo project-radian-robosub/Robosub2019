@@ -34,7 +34,7 @@ void setup() {
 
   stopAll();
 
-  delay(7500);
+  delay(8500);
 
   sendReady();
 

@@ -8,6 +8,7 @@ v1 = VisionV3(1)
 gen = v1.vision_generator(True)
 ctr = Control
 killed = True
+gate_tar = 93
 
 
 while killed:
@@ -20,9 +21,15 @@ while killed:
     time.sleep(0.1)
 
     try:
+<<<<<<< HEAD
         ctr.imu.set_z(140)
         ctr.pressure.set_tar(1085)
         while ctr.pressure.get_val() < 1080 and not killed:
+=======
+        ctr.imu.set_z(gate_tar)
+        ctr.pressure.set_tar(1085)
+        while ctr.pressure.get_val() < 1070 and not killed:
+>>>>>>> f80b541ccee631b9b612f6c37db9cbf63bc08f1f
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(0, 0, 0, 0, 0, 0)
@@ -86,7 +93,11 @@ while killed:
                 y_pow = -100
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
+<<<<<<< HEAD
             ctr.set_move_powers(75, x_pow * 1.5, -y_pow, -y_pow, x_pow * 1.5, 75)
+=======
+            ctr.set_move_powers(75, x_pow * 1.5, 0, 0, x_pow * 1.5, 75)
+>>>>>>> f80b541ccee631b9b612f6c37db9cbf63bc08f1f
             ctr.set_motor_powers()
             timer2 = time.perf_counter()
             timer4 = time.perf_counter()
@@ -98,7 +109,101 @@ while killed:
         timer1 = time.perf_counter()
         timer2 = time.perf_counter()
 
-        while timer2 - timer1 < 4 and not killed:  # stop
+        while timer2 - timer1 < 7 and not killed:
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(75, 0, 0, 0, 0, 75)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        timer1 = time.perf_counter()
+        timer2 = time.perf_counter()
+
+        while timer2 - timer1 < 3 and not killed:  # stop
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.imu.set_z(ctr.change_heading(gate_tar, 120))
+        while timer2 - timer1 < 6 and not killed:  # spin
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.imu.set_z(ctr.change_heading(gate_tar, 240))
+        while timer2 - timer1 < 9 and not killed:  # spin
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.imu.set_z(gate_tar)
+
+        timer1 = time.perf_counter()
+        timer2 = time.perf_counter()
+
+        while timer2 - timer1 < 3 and not killed:  # spin
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.imu.set_z(ctr.change_heading(gate_tar, 120))
+        while timer2 - timer1 < 6 and not killed:  # spin
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.imu.set_z(ctr.change_heading(gate_tar, 240))
+        while timer2 - timer1 < 9 and not killed:  # spin
+            ctr.set_imu_powers()
+            ctr.set_pressure_powers()
+            ctr.set_move_powers(0, 0, 0, 0, 0, 0)
+            ctr.set_motor_powers()
+            timer2 = time.perf_counter()
+            print(ctr.imu.get_angles(), ctr.pressure.get_val(), ctr.MotorMovement.targets)
+            if ctr.MotorMovement.check_reset():
+                killed = True
+                print('KILLED')
+
+        ctr.imu.set_z(gate_tar)
+
+        timer1 = time.perf_counter()
+        timer2 = time.perf_counter()
+
+        while timer2 - timer1 < 4 and not killed:  # spin
             ctr.set_imu_powers()
             ctr.set_pressure_powers()
             ctr.set_move_powers(0, 0, 0, 0, 0, 0)

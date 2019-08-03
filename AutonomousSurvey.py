@@ -1,10 +1,5 @@
-import sys
-import os
-import os.path
-from datetime import datetime
+import datetime
 import cv2
-import smbus
-import ms5837
 from PressureSensor import Pressure
 import IMU
 
@@ -14,7 +9,7 @@ class Telemetry:
     def __init__(self, front_cam, down_cam):
         self.p = Pressure()
 
-        self.date_time = datetime()
+        self.date_time = datetime.today()
         self.path = 'home/stewe951/Documents/Telemetry/'
 
         self.imu_doc = open('%s_IMU_Telemetry' % self.date_time, 'w+')

@@ -6,6 +6,7 @@ ctr = Control
 
 killed = True
 
+target = 220
 
 while killed:
 
@@ -16,7 +17,6 @@ while killed:
     ctr.stop_all()
 
     try:
-        target = 0
         ctr.imu.set_z(target)
         ctr.pressure.set_tar(1080)
         while not killed:

@@ -8,8 +8,8 @@ v1 = VisionV3(0)
 gen = v1.vision_generator(True)
 ctr = Control
 killed = True
-gate_tar = 0
-p_tar = 1085
+gate_tar = 220
+p_tar = 1080
 p_thresh = p_tar - 10
 depth_increment = 2
 
@@ -35,7 +35,8 @@ def drive(m2=0, m3=0, m4=0, m5=0, m6=0, m7=0):
 
 
 while killed:
-    ctr.MotorMovement.wait_for_arduino()
+
+    ctr.MotorMovement.wait_for_initialization()
 
     killed = False
 

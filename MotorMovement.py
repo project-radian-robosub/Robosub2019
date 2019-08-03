@@ -39,6 +39,18 @@ current_vals = [0, 0, 0, 0, 0, 0]
 reverse = -1
 
 
+def wait_for_initialization():
+    time.sleep(1)
+    while check_reset():
+        print('Kill Switch Off')
+        if IMU.sensor.calibration_status[3] > 2:
+            print(IMU.sensor.calibration_status[3])
+            GPIO.output(LED_pin, GPIO.HIGH)
+        time.sleep(1)
+    ser.write('050050050050050050'.encode())
+    time.sleep(8.5)
+
+
 def wait_for_arduino():
     msg = ""
     while msg.find("ready") == -1:
@@ -50,7 +62,7 @@ def wait_for_arduino():
         if ser.inWaiting() > 0:
             c = ser.read()
             msg += c.decode('utf-8')
-    print("Arduino" + msg)
+    print("Arduino " + msg)
 
 
 def cleanup_gpio():

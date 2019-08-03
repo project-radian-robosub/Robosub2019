@@ -1,6 +1,4 @@
-import numpy as np
 import cv2
-import time
 
 
 class VisionV3:
@@ -15,9 +13,13 @@ class VisionV3:
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
-        # boxes = [None]
+        self.min_x, self.min_y = self.width, self.height
+        self.max_x, self.max_y = 0, 0
 
-    def vision_generator(self, show=False):
+        self.tl = (0, 0)
+        self.br = (0, 0)
+
+    def vision_generator(self, show=False, non_max_suppression=True):
 
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         fgbg = cv2.createBackgroundSubtractorMOG2()
@@ -32,43 +34,23 @@ class VisionV3:
 
                 _, contours, hierarchy = cv2.findContours(fgmask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 height, width, _ = img.shape
-                min_x, min_y = width, height
-                max_x = max_y = 0
+                self.min_x, self.min_y = width, height
+                self.max_x, self.max_y = 0, 0
 
                 for i in range(len(contours)):
-
-
                     x, y, w, h = cv2.boundingRect(contours[i])
 
                     if w > 25 and h > 80:
-                        '''
-                        tl = (x, y)
-                        br = (x + w, y + h)
-                        '''
+                        if non_max_suppression:
+                            self.tl, self.br = self.non_max_suppression(x, y, w, h)
+                        else:
+                            self.tl = (x, y)
+                            self.br = (x + w, y + h)
 
-                        min_x, max_x = min(x, min_x), max(x + w, max_x)
-                        min_y, max_y = min(y, min_y), max(y + h, max_y)
+                        box_ori = (self.tl, self.br)
 
-                        tl = (min_x, min_y)
-                        br = (max_x, max_y)
-
-                        # cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
-                        cv2.rectangle(img, (min_x, min_y), (max_x, max_y), (0, 255, 0), 3)
-
-                        box_ori = (tl, br)
-                        # boxes.append(box_ori)
-
-                        # rect = cv2.minAreaRect(contours[i])
-                        # box = cv2.boxPoints(rect)
-                        # box_d = np.int0(box)
-                        # cv2.drawContours(img, [box_d], 0, (0, 255, 0), 3)
-                        # cv2.drawContours(blur, contours[i], -1, (255, 0, 0))
                 if show:
-                    w, q = tuple(box_ori)
-                    x1, y1 = w
-                    x2, y2 = q
-
-                    cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
+                    cv2.rectangle(img, self.tl, self.br, (255, 0, 0), 2)
                     print(box_ori)
 
                     cv2.imshow('Image', img)
@@ -89,6 +71,23 @@ class VisionV3:
     def get_height(self):
         return self.height
 
+    def set_min(self, x, y):
+        self.min_x = x
+        self.min_y = y
+
+    def set_max(self, x, y):
+        self.max_x = x
+        self.max_y = y
+
+    def non_max_suppression(self, x_coord, y_coord, w, h):
+        self.min_x, self.max_x = min(x_coord, self.min_x), max(x_coord + w, self.max_x)
+        self.min_y, self.max_y = min(y_coord, self.min_y), max(y_coord + h, self.max_y)
+
+        self.tl = (self.min_x, self.min_y)
+        self.br = (self.max_x, self.max_y)
+
+        return self.tl, self.br
+
 
 if __name__ == '__main__':
     """
@@ -99,7 +98,7 @@ if __name__ == '__main__':
         }
     """
 
-    v = VisionV3(1)
+    v = VisionV3(0)
     print('Starting Loop')
     v_gen = v.vision_generator(True)
 
